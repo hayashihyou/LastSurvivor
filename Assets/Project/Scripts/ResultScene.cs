@@ -12,9 +12,14 @@ namespace LastSurvivor
     /// </summary>
     public class ResultScene : MonoBehaviour
     {
-        [Header("リトライボタン"),SerializeField] private Button retryButton;
-        [Header("タイトルボタン"),SerializeField] private Button titleButton;
-        [Header("スコアテキスト"),SerializeField] private TextMeshProUGUI scoreText;
+        [Header("リトライボタン"),SerializeField] 
+        private Button retryButton;
+
+        [Header("タイトルボタン"),SerializeField] 
+        private Button titleButton;
+
+        [Header("スコアテキスト"),SerializeField] 
+        private TextMeshProUGUI scoreText;
 
         /// <summary>
         /// シーン開始時の処理
@@ -22,7 +27,7 @@ namespace LastSurvivor
         void Start()
         {
             // スコアを取得
-            int score = PlayerPrefs.GetInt("Score", 0);
+            var score = PlayerPrefs.GetInt("Score", 0);
             scoreText.text = $"Score: {score}";
 
             //DOTweenを使ってスコアテキストをアニメーション表示

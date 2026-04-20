@@ -10,7 +10,8 @@ namespace LastSurvivor
     /// </summary>
     public class TitleSceneScript : MonoBehaviour
     {
-        [Header("スタートボタン"),SerializeField] private Button startButton;
+        [Header("スタートボタン"),SerializeField] 
+        private Button startButton;
 
         /// <summary>
         /// シーン開始時の処理

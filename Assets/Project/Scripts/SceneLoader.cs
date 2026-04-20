@@ -10,12 +10,12 @@ namespace LastSurvivor
     public class SceneLoader : MonoBehaviour
     {
         /// <summary>
-        /// インスタンス
+        /// シングルトンインスタンス
         /// </summary>
         public static SceneLoader Instance { get; private set; }
 
         /// <summary>
-        /// インスタンスの初期化
+        /// シングルトンの初期化 
         /// </summary>
         private void Awake()
         {

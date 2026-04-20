@@ -10,7 +10,8 @@ namespace LastSurvivor
     /// </summary>
     public class InGameScene : MonoBehaviour
     {
-        [Header("リザルトボタン"),SerializeField] private Button resultButton;
+        [Header("リザルトボタン"),SerializeField] 
+        private Button resultButton;
 
         // スコア管理するReactiveProperty
         public ReactiveProperty<int> Score = new ReactiveProperty<int>(0);

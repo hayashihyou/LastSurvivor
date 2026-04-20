@@ -1,8 +1,14 @@
-using UnityEngine;
-
-public class SceneNameConstants : MonoBehaviour
+namespace LastSurvivor
 {
-    public const string Title = "Title";
-    public const string InGame = "InGame";
-    public const string Result = "Result";
+    using UnityEngine;
+
+    /// <summary>
+    /// シーン名を定数で管理するクラス
+    /// </summary>
+    public class SceneNameConstants : MonoBehaviour
+    {
+        public static readonly string Title = "Title";
+        public static readonly string InGame = "InGame";
+        public static readonly string Result = "Result";
+    }
 }
