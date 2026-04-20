@@ -821,7 +821,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a9ef0911b48609459ad69cf58a1bda9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InGameSceneScript
-  gameOverButton: {fileID: 1192721843}
+  resultButton: {fileID: 1192721843}
 --- !u!4 &1319068874
 Transform:
   m_ObjectHideFlags: 0
