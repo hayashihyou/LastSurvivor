@@ -17,7 +17,7 @@ namespace LastSurvivor
         /// <summary>
         /// シングルトンの初期化 
         /// </summary>
-        private void Awake()
+        void Awake()
         {
             if (Instance == null)
             {
@@ -34,19 +34,19 @@ namespace LastSurvivor
         /// 指定されたシーンを非同期ロード
         /// </summary>
         /// <param name="sceneName"> シーン名 </param>
-        public async UniTask LoadSceneAsync(string sceneName)
+        public async UniTask LoadSceneAsyncTask(string sceneName)
         {
-            await FadeOut();
+            await FadeOutTask();
 
             await SceneManager.LoadSceneAsync(sceneName);
 
-            await FadeIn();
+            await FadeInTask();
         }
 
         /// <summary>
         /// フェードアウトを実行
         /// </summary>
-        private async UniTask FadeOut()
+        private async UniTask FadeOutTask()
         {
             // 0.5秒待機
             await UniTask.Delay(500); 
@@ -55,7 +55,7 @@ namespace LastSurvivor
         /// <summary>
         /// フェードインを実行
         /// </summary>
-        private async UniTask FadeIn()
+        private async UniTask FadeInTask()
         {
             // 0.5秒待機
             await UniTask.Delay(500); 

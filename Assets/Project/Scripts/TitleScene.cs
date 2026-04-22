@@ -11,7 +11,7 @@ namespace LastSurvivor
     public class TitleSceneScript : MonoBehaviour
     {
         [Header("スタートボタン"),SerializeField] 
-        private Button startButton;
+        private Button _startButton;
 
         /// <summary>
         /// シーン開始時の処理
@@ -19,29 +19,29 @@ namespace LastSurvivor
         void Start()
         {
             // スタートボタンのクリックイベント
-            startButton.onClick.AsObservable()
-                .Subscribe(_ => OnStartButtonClicked())
+            _startButton.onClick.AsObservable()
+                .Subscribe(_ => OnStartButtonClickedTask())
                 .AddTo(this);
         }
 
         /// <summary>
         /// スタートボタンをクリックしたときの処理
         /// </summary>
-        private void OnStartButtonClicked()
+        private void OnStartButtonClickedTask()
         {
-            GoToInGame().Forget();
+            GoToInGameTask().Forget();
         }
 
         /// <summary>
         /// インゲームシーンに遷移するための処理
         /// </summary>
-        private async UniTask GoToInGame()
+        private async UniTask GoToInGameTask()
         {
             // ボタンを無効化して多重クリックを防止
-            startButton.interactable = false;
+            _startButton.interactable = false;
 
             // インゲームシーンに遷移
-            await SceneLoader.Instance.LoadSceneAsync(SceneNameConstants.InGame);
+            await SceneLoader.Instance.LoadSceneAsyncTask(SceneNameConstants.InGame);
         }
     }
 }

@@ -8,40 +8,38 @@ namespace LastSurvivor
     /// </summary>
     public class PlayerAnimator : MonoBehaviour
     {
-        [Header("アニメーター"),SerializeField]
-        private Animator animator;
+        [Header("アニメーター"), SerializeField]
+        private Animator _animator;
 
-        private PlayerStatus playerStatus;
-        private PlayerMover playerMover;
+        [Header("プレイヤーのステータス"), SerializeField]
+        private PlayerStatus _playerStatus;
+
+        [Header("プレイヤーの移動"), SerializeField]
+        private PlayerMover _playerMover;
 
         /// <summary>
-        /// アニメーターのパラメーターを定義するクラス
+        /// アニメーターのパラメーターを定義
         /// </summary>
-        private static class AnimatorParameters
-        {
-            public static readonly int IsRunning = Animator.StringToHash("isRunning");
-            public static readonly int IsMoving = Animator.StringToHash("isMoving");
-            public static readonly int IsDead = Animator.StringToHash("isDead");
-        }
+        public static readonly int IsRunning = Animator.StringToHash("isRunning");
+        public static readonly int IsMoving = Animator.StringToHash("isMoving");
+        public static readonly int IsDead = Animator.StringToHash("isDead");
+
+
 
         /// <summary>
         /// Start()より先に呼ばれる処理
         /// </summary>
         void Awake()
         {
-            // コンポーネントの取得
-            playerStatus = GetComponent<PlayerStatus>();
-            playerMover = GetComponent<PlayerMover>();
-
             // アニメーターがnullの時、アニメーターコンポーネントを取得
-            if (animator == null)
+            if (_animator == null)
             {
-                animator = GetComponent<Animator>();
+                _animator = GetComponent<Animator>();
             }
         }
 
         /// <summary>
-        /// プレイヤーの状態に応じてアニメーターのパラメーターを更新する関数の呼び出し
+        /// 初期化処理
         /// </summary>
         void Start()
         {
@@ -53,19 +51,19 @@ namespace LastSurvivor
         /// </summary>
         private void SubscribeEvents()
         {
-            playerMover.isMoving
-             .Subscribe(isMoving => 
-                animator.SetBool(AnimatorParameters.IsMoving, isMoving))
+            _playerMover.IsMoving
+             .Subscribe(isMoving =>
+                _animator.SetBool(IsMoving, isMoving))
              .AddTo(this);
 
-            playerMover.isRunning
-                .Subscribe(isRunning => 
-                    animator.SetBool(AnimatorParameters.IsRunning, isRunning))
+            _playerMover.IsRunning
+                .Subscribe(isRunning =>
+                    _animator.SetBool(IsRunning, isRunning))
                 .AddTo(this);
 
-            playerStatus.isDead
-                .Subscribe(isDead => 
-                    animator.SetBool(AnimatorParameters.IsDead, isDead))
+            _playerStatus.IsDead
+                .Subscribe(isDead =>
+                    _animator.SetBool(IsDead, isDead))
                 .AddTo(this);
         }
     }

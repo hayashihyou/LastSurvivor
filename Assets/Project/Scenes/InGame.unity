@@ -492,7 +492,7 @@ Transform:
   m_GameObject: {fileID: 163344164}
   serializedVersion: 2
   m_LocalRotation: {x: 0.2534013, y: -2.253713e-10, z: 4.4650672e-11, w: 0.9673613}
-  m_LocalPosition: {x: 0, y: 3.25, z: -4}
+  m_LocalPosition: {x: 0, y: 2.35, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -523,7 +523,7 @@ Transform:
   m_GameObject: {fileID: 199342479}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.1, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -541,7 +541,7 @@ GameObject:
   - component: {fileID: 205636087}
   - component: {fileID: 205636086}
   m_Layer: 5
-  m_Name: Result
+  m_Name: TextResult
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -867,7 +867,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.2534013, y: -2.2941725e-10, z: 6.0096095e-11, w: 0.9673613}
-  m_LocalPosition: {x: 0, y: 3.25, z: -4}
+  m_LocalPosition: {x: 0, y: 2.35, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1240,7 +1240,7 @@ GameObject:
   - component: {fileID: 1192721844}
   - component: {fileID: 1192721843}
   m_Layer: 5
-  m_Name: Result
+  m_Name: ImageResult
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1377,7 +1377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a9ef0911b48609459ad69cf58a1bda9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InGameSceneScript
-  resultButton: {fileID: 1192721843}
+  _resultButton: {fileID: 1192721843}
 --- !u!4 &1319068874
 Transform:
   m_ObjectHideFlags: 0
@@ -1512,7 +1512,7 @@ Transform:
   m_GameObject: {fileID: 2104143039}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1543,7 +1543,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!136 &2104143042
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1579,7 +1579,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aafa288cdc574f44296a9f675eac6e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LastSurvivor.PlayerAnimator
-  animator: {fileID: 2095462665}
+  _animator: {fileID: 2095462665}
+  _playerStatus: {fileID: 2104143047}
+  _playerMover: {fileID: 2104143048}
 --- !u!114 &2104143047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1592,10 +1594,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fa139d10c72e614cb32ee324f5b38cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LastSurvivor.PlayerStatus
-  maxHP: 100
-  walkSpeed: 3
-  runSpeed: 6
-  attackPower: 10
+  _maxHP: 100
+  _walkSpeed: 3
+  _runSpeed: 6
+  _attackPower: 10
 --- !u!114 &2104143048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1608,13 +1610,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db532eee00bef2845bf4828d04b94bf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LastSurvivor.PlayerMover
-  characterController: {fileID: 2104143041}
-  cameraTransform: {fileID: 163344170}
-  gravity: -9.81
-  groundCheck: {fileID: 199342480}
-  groundMask:
+  _characterController: {fileID: 2104143041}
+  _cameraTransform: {fileID: 163344170}
+  _gravity: -9.81
+  _groundCheck: {fileID: 199342480}
+  _groundMask:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

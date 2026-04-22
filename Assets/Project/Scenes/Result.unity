@@ -351,7 +351,7 @@ GameObject:
   - component: {fileID: 203783747}
   - component: {fileID: 203783746}
   m_Layer: 5
-  m_Name: RetryButton
+  m_Name: ImageRetry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -575,7 +575,7 @@ GameObject:
   - component: {fileID: 1346035697}
   - component: {fileID: 1346035696}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: TextTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -712,7 +712,7 @@ GameObject:
   - component: {fileID: 1349339263}
   - component: {fileID: 1349339262}
   m_Layer: 5
-  m_Name: Score
+  m_Name: TextScore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -866,9 +866,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bf42e50c634fce46837b693033d91cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ResultSceneScript
-  retryButton: {fileID: 203783746}
-  titleButton: {fileID: 1931191720}
-  scoreText: {fileID: 1349339262}
+  _retryButton: {fileID: 203783746}
+  _titleButton: {fileID: 1931191720}
+  _scoreText: {fileID: 1349339262}
 --- !u!4 &1466131015
 Transform:
   m_ObjectHideFlags: 0
@@ -896,7 +896,7 @@ GameObject:
   - component: {fileID: 1725595379}
   - component: {fileID: 1725595378}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: TextRetry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1036,7 +1036,7 @@ GameObject:
   - component: {fileID: 1931191721}
   - component: {fileID: 1931191720}
   m_Layer: 5
-  m_Name: TitleButton
+  m_Name: ImageTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

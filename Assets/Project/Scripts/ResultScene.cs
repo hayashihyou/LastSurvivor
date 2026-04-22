@@ -13,13 +13,13 @@ namespace LastSurvivor
     public class ResultScene : MonoBehaviour
     {
         [Header("リトライボタン"),SerializeField] 
-        private Button retryButton;
+        private Button _retryButton;
 
         [Header("タイトルボタン"),SerializeField] 
-        private Button titleButton;
+        private Button _titleButton;
 
         [Header("スコアテキスト"),SerializeField] 
-        private TextMeshProUGUI scoreText;
+        private TextMeshProUGUI _scoreText;
 
         /// <summary>
         /// シーン開始時の処理
@@ -28,42 +28,42 @@ namespace LastSurvivor
         {
             // スコアを取得
             var score = PlayerPrefs.GetInt("Score", 0);
-            scoreText.text = $"Score: {score}";
+            _scoreText.text = $"Score: {score}";
 
             //DOTweenを使ってスコアテキストをアニメーション表示
-            scoreText.transform.DOScale(1.2f, 0.3f).SetEase(Ease.OutBack);
+            _scoreText.transform.DOScale(1.2f, 0.3f).SetEase(Ease.OutBack);
 
             // リトライボタンのクリックイベント
-            retryButton.onClick.AsObservable()
-                .Subscribe(_ => OnRetryClicked().Forget())
+            _retryButton.onClick.AsObservable()
+                .Subscribe(_ => OnRetryClickedTask().Forget())
                 .AddTo(this);
 
             // タイトルボタンのクリックイベント
-            titleButton.onClick.AsObservable()
-                .Subscribe(_ => OnTitleClicked().Forget())
+            _titleButton.onClick.AsObservable()
+                .Subscribe(_ => OnTitleClickedTask().Forget())
                 .AddTo(this);
         }
 
         /// <summary>
         /// リトライボタンをクリックした時の処理
         /// </summary>
-        private async UniTask OnRetryClicked()
+        private async UniTask OnRetryClickedTask()
         {
             // ボタンを無効化して多重クリックを防止
-            retryButton.interactable = false;
-            await SceneLoader.Instance.LoadSceneAsync(SceneNameConstants.InGame);
+            _retryButton.interactable = false;
+            await SceneLoader.Instance.LoadSceneAsyncTask(SceneNameConstants.InGame);
         }
 
         /// <summary>
         /// タイトルボタンをクリックしたときの処理
         /// </summary>
-        private async UniTask OnTitleClicked()
+        private async UniTask OnTitleClickedTask()
         {
             // ボタンを無効化して多重クリックを防止
-            titleButton.interactable = false;
+            _titleButton.interactable = false;
 
             // タイトルシーンに遷移
-            await SceneLoader.Instance.LoadSceneAsync(SceneNameConstants.Title);
+            await SceneLoader.Instance.LoadSceneAsyncTask(SceneNameConstants.Title);
         }
     }
 }

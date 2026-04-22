@@ -11,7 +11,7 @@ namespace LastSurvivor
     public class InGameScene : MonoBehaviour
     {
         [Header("リザルトボタン"),SerializeField] 
-        private Button resultButton;
+        private Button _resultButton;
 
         // スコア管理するReactiveProperty
         public ReactiveProperty<int> Score = new ReactiveProperty<int>(0);
@@ -24,13 +24,13 @@ namespace LastSurvivor
         /// </summary>
         void Start()
         {
-            resultButton.onClick.AsObservable()
-                .Subscribe(_ => Result())
+            _resultButton.onClick.AsObservable()
+                .Subscribe(_ => ResultTask())
                 .AddTo(this);
 
             IsResult
                 .Where(isResult => isResult)
-                .Subscribe(_ => GoToResult().Forget())
+                .Subscribe(_ => GoToResultTask().Forget())
                 .AddTo(this);
         }
 
@@ -38,7 +38,7 @@ namespace LastSurvivor
         /// スコアの加算
         /// </summary>
         /// <param name="amount"> 加算するスコアの量 </param>
-        public void AddScore(int amount)
+        public void AddScoreTask(int amount)
         {
             Score.Value += amount;
         }
@@ -46,7 +46,7 @@ namespace LastSurvivor
         /// <summary>
         /// リザルトシーンに遷移するためのフラグを立てる処理
         /// </summary>
-        private void Result()
+        private void ResultTask()
         {
             IsResult.Value = true;
         }
@@ -54,7 +54,7 @@ namespace LastSurvivor
         /// <summary>
         /// リザルトシーンに遷移する処理
         /// </summary>
-        private async UniTask GoToResult()
+        private async UniTask GoToResultTask()
         {
             // スコアを保存しておく
             PlayerPrefs.SetInt("Score", Score.Value); 
@@ -63,7 +63,7 @@ namespace LastSurvivor
             PlayerPrefs.Save();
 
             // リザルトシーンに遷移
-            await SceneLoader.Instance.LoadSceneAsync(SceneNameConstants.Result);
+            await SceneLoader.Instance.LoadSceneAsyncTask(SceneNameConstants.Result);
         }
     }
 }

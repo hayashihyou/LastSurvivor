@@ -9,42 +9,42 @@ namespace LastSurvivor
     public class PlayerStatus : MonoBehaviour
     {
         [Header("HP"),SerializeField]
-        private int maxHP = 100;
+        private int _maxHP = 100;
 
         [Header("歩く速度"),SerializeField]
-        private float walkSpeed = 3f;
+        private float _walkSpeed = 3f;
 
         [Header("走る速度"),SerializeField]
-        private float runSpeed = 6f;
+        private float _runSpeed = 6f;
 
         [Header("攻撃力"),SerializeField]
-        private int attackPower = 10;
+        private int _attackPower = 10;
 
         // R3で値の変化を監視
-        public ReactiveProperty<int> currentHP {get; private set; }
-        public ReactiveProperty<bool> isDead {get; private set; }
+        public ReactiveProperty<int> CurrentHP {get; private set; }
+        public ReactiveProperty<bool> IsDead {get; private set; }
 
         // 読み取り専用
-        public int MaxHP => maxHP;
-        public float WalkSpeed => walkSpeed;
-        public float RunSpeed => runSpeed;
-        public int AttackPower => attackPower;
+        public int MaxHP => _maxHP;
+        public float WalkSpeed => _walkSpeed;
+        public float RunSpeed => _runSpeed;
+        public int AttackPower => _attackPower;
 
         /// <summary>
         /// Start()より前に呼ばれる処理
         /// </summary>
         private void Awake()
         {
-            currentHP = new ReactiveProperty<int>(maxHP);
-            isDead = new ReactiveProperty<bool>(false);
+            CurrentHP = new ReactiveProperty<int>(_maxHP);
+            IsDead = new ReactiveProperty<bool>(false);
 
             // HPが0以下になったときに死亡フラグを立てる
-            currentHP
+            CurrentHP
                 .Where(hp => hp <= 0)
                 .Subscribe(_ =>
                 {
-                    currentHP.Value = 0; 
-                    isDead.Value = true;
+                    CurrentHP.Value = 0; 
+                    IsDead.Value = true;
                 })
                 .AddTo(this);
         }
@@ -53,20 +53,23 @@ namespace LastSurvivor
         /// ダメージを受ける処理
         /// </summary>
         /// <param name="damage">受けるダメージ量</param>
-        public void TakeDamage(int damage)
+        public void TakeDamageTask(int damage)
         {
-            if (isDead.Value) return; 
-            currentHP.Value -= damage;
+            if (IsDead.Value)
+            {
+                return;
+            }
+            CurrentHP.Value -= damage;
         }
 
         /// <summary>
         /// HPを回復する処理
         /// </summary>
         /// <param name="amount">回復するHP量</param>
-        public void Heal(int amount)
+        public void HealTask(int amount)
         {
-            if (isDead.Value) return; 
-            currentHP.Value = Mathf.Min(currentHP.Value + amount, maxHP);
+            if (IsDead.Value) return; 
+            CurrentHP.Value = Mathf.Min(CurrentHP.Value + amount, _maxHP);
         }
     }
 }
