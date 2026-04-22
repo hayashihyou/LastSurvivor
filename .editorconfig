@@ -1,0 +1,6 @@
+# ルート
+root = true
+
+# UTF-8で固定
+[*.{cs}]
+charset = utf-8-bom

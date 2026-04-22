@@ -3,7 +3,7 @@ namespace LastSurvivor
     using UnityEngine;
 
     /// <summary>
-    /// シーン名を定数で管理するクラス
+    /// 繧ｷ繝ｼ繝ｳ蜷阪ｒ螳壽焚縺ｨ縺励※菫晄戟
     /// </summary>
     public class SceneNameConstants : MonoBehaviour
     {
