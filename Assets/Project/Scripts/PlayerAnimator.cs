@@ -1,24 +1,24 @@
-namespace LastSurvivor
+﻿namespace LastSurvivor
 {
     using UnityEngine;
     using R3;
 
     /// <summary>
-    /// �v���C���[�̃A�j���[�V�������Ǘ�����N���X
+    /// プレイヤーのアニメーションを制御するクラス
     /// </summary>
     public class PlayerAnimator : MonoBehaviour
     {
-        [Header("�A�j���[�^�["), SerializeField]
+        [Header("アニメーター"), SerializeField]
         private Animator _animator;
 
-        [Header("�v���C���[�̃X�e�[�^�X"), SerializeField]
+        [Header("プレイヤーステータス"), SerializeField]
         private PlayerStatus _playerStatus;
 
-        [Header("�v���C���[�̈ړ�"), SerializeField]
+        [Header("移動"), SerializeField]
         private PlayerMover _playerMover;
 
         /// <summary>
-        /// �A�j���[�^�[�̃p�����[�^�[���`
+        /// アニメーターのパラメータ
         /// </summary>
         public static readonly int IsRunning = Animator.StringToHash("isRunning");
         public static readonly int IsMoving = Animator.StringToHash("isMoving");
@@ -31,7 +31,7 @@ namespace LastSurvivor
         /// </summary>
         void Awake()
         {
-            // �A�j���[�^�[��null�̎��A�A�j���[�^�[�R���|�[�l���g���擾
+            // アニメーターがnullの場合、取得
             if (_animator == null)
             {
                 _animator = GetComponent<Animator>();
@@ -47,7 +47,7 @@ namespace LastSurvivor
         }
 
         /// <summary>
-        /// �v���C���[�̏�Ԃɉ����ăA�j���[�^�[�̃p�����[�^�[���X�V
+        ///　プレイヤーの移動状態と死亡状態のイベントを購読し、アニメーターのパラメータを更新する
         /// </summary>
         private void SubscribeEvents()
         {

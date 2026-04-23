@@ -1,10 +1,10 @@
-namespace LastSurvivor
+﻿namespace LastSurvivor
 {
     using UnityEngine;
     using R3;
 
     /// <summary>
-    /// �v���C���[�̈ړ����Ǘ�����N���X
+    /// プレイヤーの移動と回転を制御するクラス
     /// </summary>
     public class PlayerMover : MonoBehaviour
     {
@@ -13,6 +13,15 @@ namespace LastSurvivor
 
         [Header("カメラ"), SerializeField]
         private Transform _cameraTransform;
+
+        [Header("マウス感度"), SerializeField]
+        private float _mouseSensitivity = 2f;
+
+        [Header("視点上限"), SerializeField]
+        private float _maxViewAngle = 80f;
+
+        [Header("視点下限"), SerializeField]
+        private float _minViewAngle = -80f;
 
         [Header("重力"), SerializeField]
         private float _gravity = -9.81f;
@@ -24,6 +33,9 @@ namespace LastSurvivor
         [Header("地面マスク"), SerializeField]
         private LayerMask _groundMask;
 
+        [Header("FPSカメラ"), SerializeField]
+        private Transform _fpsCamera;
+
         // プレイヤーステータス
         private PlayerStatus _playerStatus;
 
@@ -33,9 +45,21 @@ namespace LastSurvivor
         // 地面接触判定
         private bool _isGrounded;
 
+        // カメラのピッチ角度
+        private float _cameraPitch = 0f;
+
         // プレイヤーの走行状態と移動状態
-        public ReactiveProperty<bool> IsRunning { get; private set; } = new ReactiveProperty<bool>(false);
-        public ReactiveProperty<bool> IsMoving { get; private set; } = new ReactiveProperty<bool>(false);
+        public ReactiveProperty<bool> IsRunning { get; private set; } 
+        public ReactiveProperty<bool> IsMoving { get; private set; }
+        void Awake()
+        {
+            IsRunning = new ReactiveProperty<bool>(false);
+            IsMoving = new ReactiveProperty<bool>(false);
+
+            // マウスを固定して非表示にする
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
 
         /// <summary>
         /// インスタンス化直後に呼び出される初期化処理
@@ -43,11 +67,6 @@ namespace LastSurvivor
         void Start()
         {
             _playerStatus = GetComponent<PlayerStatus>();
-
-            if (_cameraTransform == null)
-            {
-                _cameraTransform = Camera.main.transform;
-            }
         }
 
         /// <summary>
@@ -61,8 +80,9 @@ namespace LastSurvivor
             }
 
             CheckGroundTask();
+            HandleRotationTask();
             HandleMovementTask();
-            ApplyGravity();
+            ApplyGravityTask();
         }
 
         /// <summary>
@@ -82,14 +102,32 @@ namespace LastSurvivor
             }
         }
 
+        private void HandleRotationTask()
+        {
+            // マウス入力の取得
+            float mouseX = Input.GetAxis("Mouse X") * _mouseSensitivity;
+            float mouseY = Input.GetAxis("Mouse Y") * _mouseSensitivity;
+            
+            // プレイヤーの水平回転
+            transform.Rotate(Vector3.up * mouseX);
+            
+            // カメラの垂直回転
+            _cameraPitch -= mouseY;
+            _cameraPitch = Mathf.Clamp(_cameraPitch, _minViewAngle, _maxViewAngle);
+            _cameraTransform.localRotation = Quaternion.Euler(_cameraPitch, 0f, 0f);
+
+            // FPSカメラの回転をプレイヤーの回転に合わせる  
+            _fpsCamera.rotation = _cameraTransform.rotation;
+        }
+
         /// <summary>
         /// プレイヤーの移動
         /// </summary>
         private void HandleMovementTask()
         {
             // 入力の取得
-            float horizontal = Input.GetAxis("Horizontal");
-            float vertical = Input.GetAxis("Vertical");
+            float horizontal = Input.GetAxisRaw("Horizontal");
+            float vertical = Input.GetAxisRaw("Vertical");
 
             IsRunning.Value = Input.GetKey(KeyCode.LeftShift);
             IsMoving.Value = horizontal != 0 || vertical != 0;
@@ -99,29 +137,20 @@ namespace LastSurvivor
                 return;
             }
 
-            // 入力に基づいて移動方向を計算
-            Vector3 direction = new Vector3(horizontal, 0, vertical).normalized;
-            Vector3 cameraForward = _cameraTransform.forward;
-            Vector3 cameraRight = _cameraTransform.right;
-            cameraForward.y = 0;
-            cameraRight.y = 0;
-
             // カメラの向きに基づいて移動方向を変換
-            Vector3 moveDirection = (cameraForward * direction.z + cameraRight * direction.x).normalized;
+            Vector3 moveDirection = (transform.forward * vertical + transform.right * horizontal).normalized;
 
             // 速度の計算
             float speed = IsRunning.Value ? _playerStatus.RunSpeed : _playerStatus.WalkSpeed;
 
             // プレイヤーを移動
             _characterController.Move(moveDirection * speed * Time.deltaTime);
-
-            transform.rotation = Quaternion.LookRotation(moveDirection);
         }
 
         /// <summary>
         /// 重力の適用
         /// </summary>
-        private void ApplyGravity()
+        private void ApplyGravityTask()
         {
             if (_characterController.isGrounded && _velocity.y < 0)
             {

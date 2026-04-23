@@ -1,4 +1,4 @@
-namespace LastSurvivor
+﻿namespace LastSurvivor
 {
     using Cysharp.Threading.Tasks;
     using R3;
@@ -6,17 +6,17 @@ namespace LastSurvivor
     using UnityEngine.UI;
 
     /// <summary>
-    /// ?��C?��?��?��Q?��[?��?��?��V?��[?��?��?��?��?��Ǘ�?��?��?��?��X?��N?��?��?��v?��g
+    ///　インゲームシーンを管理するクラス
     /// </summary>
     public class InGameScene : MonoBehaviour
     {
-        [Header("?��?��?��U?��?��?��g?��{?��^?��?��"), SerializeField]
+        [Header("リザルトボタン"), SerializeField]
         private Button _resultButton;
 
-        // ?��X?��R?��A?��Ǘ�?��?��?��?��ReactiveProperty
+        // スコアを管理するReactiveProperty
         public ReactiveProperty<int> Score = new ReactiveProperty<int>(0);
 
-        // ?��?��?��U?��?��?��g?��?��Ԃ�?��Ǘ�?��?��?��?��ReactiveProperty
+        // リザルト画面に遷移するかどうかを管理するReactiveProperty
         public ReactiveProperty<bool> IsResult = new ReactiveProperty<bool>(false);
 
         /// <summary>
@@ -35,16 +35,16 @@ namespace LastSurvivor
         }
 
         /// <summary>
-        /// ?��X?��R?��A?��̉�?��Z
+        /// スコアを加算する処理
         /// </summary>
-        /// <param name="amount"> ?��?��?��Z?��?��?��?��X?��R?��A?��̗� </param>
+        /// <param name="amount">加算するスコアの量</param>
         public void AddScoreTask(int amount)
         {
             Score.Value += amount;
         }
 
         /// <summary>
-        /// ?��?��?��U?��?��?��g?��V?��[?��?��?��ɑJ?��ڂ�?��邽?��߂̃t?��?��?��O?��?��Ă鏈?��?��
+        /// リザルト画面に遷移するフラグを立てる処理
         /// </summary>
         private void ResultTask()
         {
@@ -52,17 +52,17 @@ namespace LastSurvivor
         }
 
         /// <summary>
-        /// ?��?��?��U?��?��?��g?��V?��[?��?��?��ɑJ?��ڂ�?��鏈�?��
+        /// リザルト画面に遷移する処理
         /// </summary>
         private async UniTask GoToResultTask()
         {
-            // ?��X?��R?��A?��?��ۑ�?��?��?��Ă�?��?��
+            // スコアをPlayerPrefsに保存
             PlayerPrefs.SetInt("Score", Score.Value);
 
-            // PlayerPrefs?��̕ύX?��?��ۑ�
+            // PlayerPrefsを保存
             PlayerPrefs.Save();
 
-            // ?��?��?��U?��?��?��g?��V?��[?��?��?��ɑJ?��?��
+            // リザルト画面に遷移
             await SceneLoader.Instance.LoadSceneAsyncTask(SceneNameConstants.Result);
         }
     }
