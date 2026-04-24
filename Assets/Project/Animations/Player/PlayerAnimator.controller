@@ -157,6 +157,12 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
+  - m_Name: isFire
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
   - m_Name: isDead
     m_Type: 4
     m_DefaultFloat: 0
@@ -224,7 +230,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: ef7b0ead318c4fc4a9bc0968ab99d321, type: 3}
+  m_Motion: {fileID: -203655887218126122, guid: dad5861aa5cd75a4d8f26c7ecf194e5c, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
