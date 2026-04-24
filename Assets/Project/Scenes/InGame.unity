@@ -924,11 +924,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 149557227937966326, guid: 66d5762aeb9ffe24ea1fef339ef65262, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.14
+      value: -0.138
       objectReference: {fileID: 0}
     - target: {fileID: 149557227937966326, guid: 66d5762aeb9ffe24ea1fef339ef65262, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.5
+      value: -0.501
       objectReference: {fileID: 0}
     - target: {fileID: 149557227937966326, guid: 66d5762aeb9ffe24ea1fef339ef65262, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1148,7 +1148,7 @@ RectTransform:
   m_GameObject: {fileID: 1192721841}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 205636085}
@@ -1545,6 +1545,7 @@ GameObject:
   - component: {fileID: 2104143048}
   - component: {fileID: 2104143047}
   - component: {fileID: 2104143046}
+  - component: {fileID: 2104143049}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1632,6 +1633,11 @@ MonoBehaviour:
   _animator: {fileID: 6766536238558749963}
   _playerStatus: {fileID: 2104143047}
   _playerMover: {fileID: 2104143048}
+  _bulletController: {fileID: 2104143049}
+  _fireRate: 0.1
+  _weaponPivot: {fileID: 230897428}
+  _recoilForce: 0.1
+  _returnSpeed: 5
 --- !u!114 &2104143047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1671,6 +1677,21 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   _fpsCamera: {fileID: 330585546}
+--- !u!114 &2104143049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2104143039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47c7e8ec2f028e842a6e369a5c5be20a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LastSurvivor.BulletController
+  BulletPrefab: {fileID: 6036684808365260650, guid: 7ab433a01479e3d418410464b310162d, type: 3}
+  FirePoint: {fileID: 222526889}
+  BulletSpeed: 50
 --- !u!1 &6766536237571306916
 GameObject:
   m_ObjectHideFlags: 0
