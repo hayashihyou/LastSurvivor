@@ -10,37 +10,42 @@
         [Header("設定"),SerializeField]
         public GameObject BulletPrefab;
 
+        [Header("CloneのBulletを格納する親オブジェクト"),SerializeField]
+        private GameObject _bullets;
+
         [Header("マズルフラッシュのエフェクト"),SerializeField]
         private ParticleSystem _muzzleFlash;
 
-        // 弾の発射位置
-        public Transform FirePoint;
+        [Header("発射位置"),SerializeField]
+        private Transform _firePoint;
 
-        // 弾の速度
-        public float BulletSpeed = 50f;
+        [Header("弾の速度"),SerializeField]
+        private float _bulletSpeed = 50f;
 
+        [Header("弾の寿命"),SerializeField]
+        private float _bulletLifetime = 5f;
         /// <summary>
         /// 弾を発射するタスク
         /// </summary>
-        public void ShootTask()
+        public void Shoot()
         {
             // マズルフラッシュエフェクトを再生
             _muzzleFlash.Play(); 
 
             // 弾のプレハブをインスタンス化して発射位置と回転を設定
-            GameObject bullet = Instantiate(BulletPrefab, FirePoint.position, FirePoint.rotation);
+            var bullet = Instantiate(BulletPrefab, _firePoint.position, _firePoint.rotation, _bullets.transform);
 
             // 弾のRigidbodyコンポーネントを取得して、前方に速度を与える
-            Rigidbody rb = bullet.GetComponent<Rigidbody>();
+            var rb = bullet.GetComponent<Rigidbody>();
 
             if(rb != null)
             {
                 // 弾を前方に発射
-                rb.linearVelocity = FirePoint.forward * BulletSpeed;
+                rb.linearVelocity = _firePoint.forward * _bulletSpeed;
             }
 
             // 5秒後に弾を破壊してメモリを解放
-            Destroy(bullet, 5f); 
+            Destroy(bullet, _bulletLifetime); 
         }
     }
 }

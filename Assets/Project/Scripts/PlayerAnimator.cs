@@ -70,10 +70,10 @@
             _weaponPivot.localPosition = Vector3.Lerp(_weaponPivot.localPosition, _originalPosition, Time.deltaTime * _returnSpeed);
         }
 
-        void ApplyRecoilTask()
+        void ApplyRecoil()
         {
             // 武器の位置を反動分だけ後ろに移動させる
-            _weaponPivot.localPosition -= new Vector3(0, _recoilForce, -_recoilForce);
+            _weaponPivot.localPosition -= new Vector3(0, 0, -_recoilForce);
         }
 
         /// <summary>
@@ -97,7 +97,7 @@
             Observable.EveryUpdate()
                     .Subscribe(_ =>
                     {
-                        bool isFiring = Input.GetButton("Fire1") && !_playerStatus.IsDead.Value;
+                        var isFiring = Input.GetButton("Fire1") && !_playerStatus.IsDead.Value;
                         _animator.SetBool(IsFiring, isFiring);
                     })
                     .AddTo(this);
@@ -109,9 +109,9 @@
                 .ThrottleFirst(System.TimeSpan.FromSeconds(_fireRate),UnityTimeProvider.Update)
                 .Subscribe(_ =>
                 {
-                    _bulletController.ShootTask();
+                    _bulletController.Shoot();
                     // 武器の反動を適用するタスク
-                    ApplyRecoilTask();
+                    ApplyRecoil();
                 })
                 .AddTo(this);
 
