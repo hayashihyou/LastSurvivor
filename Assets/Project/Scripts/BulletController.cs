@@ -10,6 +10,9 @@
         [Header("設定"),SerializeField]
         public GameObject BulletPrefab;
 
+        [Header("マズルフラッシュのエフェクト"),SerializeField]
+        private ParticleSystem _muzzleFlash;
+
         // 弾の発射位置
         public Transform FirePoint;
 
@@ -21,6 +24,9 @@
         /// </summary>
         public void ShootTask()
         {
+            // マズルフラッシュエフェクトを再生
+            _muzzleFlash.Play(); 
+
             // 弾のプレハブをインスタンス化して発射位置と回転を設定
             GameObject bullet = Instantiate(BulletPrefab, FirePoint.position, FirePoint.rotation);
 

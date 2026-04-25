@@ -82,7 +82,7 @@
             CheckGroundTask();
             HandleRotationTask();
             HandleMovementTask();
-            ApplyGravityTask();
+            ApplyGravity();
         }
 
         /// <summary>
@@ -150,7 +150,7 @@
         /// <summary>
         /// 重力の適用
         /// </summary>
-        private void ApplyGravityTask()
+        private void ApplyGravity()
         {
             if (_characterController.isGrounded && _velocity.y < 0)
             {
