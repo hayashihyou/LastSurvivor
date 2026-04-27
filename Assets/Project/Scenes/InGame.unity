@@ -5307,7 +5307,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &256295825
 MonoBehaviour:
@@ -5762,7 +5762,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &709783187
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6018,6 +6018,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1015958261}
   - component: {fileID: 1015958262}
+  - component: {fileID: 1015958263}
   m_Layer: 5
   m_Name: HPBar
   m_TagString: Untagged
@@ -6034,7 +6035,7 @@ RectTransform:
   m_GameObject: {fileID: 1015958260}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 4, y: 6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1710068262}
@@ -6044,7 +6045,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -600, y: -500}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1015958262
@@ -6098,6 +6099,25 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1015958263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1015958260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a18b24eae2993a40bf4bf044c9591fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LastSurvivor.HPBar
+  _hpSlider: {fileID: 1015958262}
+  _fillImage: {fileID: 256295825}
+  _highHPColor: {r: 0, g: 1, b: 0, a: 1}
+  _midHPColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  _lowHPColor: {r: 1, g: 0, b: 0, a: 1}
+  _midHPThreshold: 0.5
+  _lowHPThreshold: 0.25
 --- !u!1 &1082958904
 GameObject:
   m_ObjectHideFlags: 0
@@ -6572,8 +6592,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -5, y: 0}
-  m_SizeDelta: {x: -20, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2045830211
 GameObject:
@@ -6775,9 +6795,11 @@ GameObject:
   - component: {fileID: 2104143047}
   - component: {fileID: 2104143046}
   - component: {fileID: 2104143049}
+  - component: {fileID: 2104143050}
+  - component: {fileID: 2104143051}
   m_Layer: 6
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6863,11 +6885,7 @@ MonoBehaviour:
   _animator: {fileID: 6766536238558749963}
   _playerStatus: {fileID: 2104143047}
   _playerMover: {fileID: 2104143048}
-  _bulletController: {fileID: 2104143049}
-  _fireRate: 0.1
-  _weaponPivot: {fileID: 230897428}
-  _recoilForce: 0.1
-  _returnSpeed: 5
+  _playerShooter: {fileID: 2104143051}
 --- !u!114 &2104143047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6925,6 +6943,40 @@ MonoBehaviour:
   _firePoint: {fileID: 222526889}
   _bulletSpeed: 50
   _bulletLifetime: 5
+--- !u!114 &2104143050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2104143039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b7a22cd24d42ba46accb94ee4de7092, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LastSurvivor.PlayerHealth
+  _maxHP: 100
+  _currentHP: 100
+  _hpBar: {fileID: 1015958263}
+  _playerStatus: {fileID: 2104143047}
+--- !u!114 &2104143051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2104143039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df0fdb91384f53f4fa77eb2f676a5116, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LastSurvivor.PlayerShooter
+  _bulletController: {fileID: 2104143049}
+  _playerStatus: {fileID: 2104143047}
+  _fireRate: 0.1
+  _weaponPivot: {fileID: 230897428}
+  _recoilForce: 0.05
+  _returnSpeed: 5
 --- !u!1 &6766536237571306916
 GameObject:
   m_ObjectHideFlags: 0
