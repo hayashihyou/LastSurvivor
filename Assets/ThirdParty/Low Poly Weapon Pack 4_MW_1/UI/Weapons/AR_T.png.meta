@@ -1,5 +1,12 @@
 fileFormatVersion: 2
 guid: 7315b847a6d6c47469fa28349800e3b6
+AssetOrigin:
+  serializedVersion: 1
+  productId: 356122
+  packageName: Low Poly Weapon Series 4 MW 1
+  packageVersion: 1.0
+  assetPath: Assets/Low Poly Weapon Pack 4_MW_1/UI/Weapons/AR_T.png
+  uploadId: 848724
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -95,12 +102,34 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: AR_T_0
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 266
+        width: 1888
+        height: 528
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1f3c3cd7816fec49a2ceabbb7131a26
+      internalID: 226439087
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 7a8f0cbc793967c489ad32caad4029b3
     internalID: 0
     vertices: []
     indices: 
@@ -108,17 +137,15 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
-    nameFileIdTable: {}
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":true,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+      - key: SpriteEditor.SliceOnImport
+        value: True
+    nameFileIdTable:
+      AR_T_0: 226439087
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 356122
-  packageName: Low Poly Weapon Series 4 MW 1
-  packageVersion: 1.0
-  assetPath: Assets/Low Poly Weapon Pack 4_MW_1/UI/Weapons/AR_T.png
-  uploadId: 848724

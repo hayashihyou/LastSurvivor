@@ -26,6 +26,9 @@
         [Header("元に戻る速さ"), SerializeField]
         private float _returnSpeed = 5f;
 
+        [Header("インベントリ"),SerializeField]
+        private WeaponInventory _weaponInventory;
+
         // 武器の元の位置
         private Vector3 _originalPosition;
 
@@ -68,9 +71,9 @@
                 .Subscribe(_ => IsFiring.Value = Input.GetButton("Fire1"))
                 .AddTo(this);
 
-            // 連射速度に応じて弾を発射する
+            // 連射の処理
             Observable.EveryUpdate()
-                .Where(_ => Input.GetButton("Fire1") && !_playerStatus.IsDead.Value)
+                .Where(_ => Input.GetButton("Fire1") && !_playerStatus.IsDead.Value && _weaponInventory.IsCurrentWeaponFillAuto)
                 .ThrottleFirst(
                     System.TimeSpan.FromSeconds(_fireRate),
                     UnityTimeProvider.Update
@@ -80,6 +83,19 @@
                     _bulletController.Shoot();
                     // 反動を加える
                     ApplyRecoil();
+                    _weaponInventory.ConsumeAmmo();
+                })
+                .AddTo(this);
+
+            // 単発射撃の処理
+            Observable.EveryUpdate()
+                .Where(_ => Input.GetButtonDown("Fire1") && !_playerStatus.IsDead.Value && !_weaponInventory.IsCurrentWeaponFillAuto)
+                .Subscribe(_ =>
+                {
+                    _bulletController.Shoot();
+                    // 反動を加える
+                    ApplyRecoil();
+                    _weaponInventory.ConsumeAmmo();
                 })
                 .AddTo(this);
         }
