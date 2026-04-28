@@ -16,7 +16,9 @@
         public Sprite Icon;
         public int MaxAmmo;
         public int CurrentAmmo;
+        public int MaxReserveAmmo;
         public int ReserveAmmo;
+        public float ReloadTime;
         public bool IsFullAuto;
     }
 }

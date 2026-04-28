@@ -73,7 +73,10 @@
 
             // 連射の処理
             Observable.EveryUpdate()
-                .Where(_ => Input.GetButton("Fire1") && !_playerStatus.IsDead.Value && _weaponInventory.IsCurrentWeaponFillAuto)
+                .Where(_ => Input.GetButton("Fire1") 
+                && !_playerStatus.IsDead.Value 
+                && _weaponInventory.IsCurrentWeaponFillAuto
+                && _weaponInventory.HasAmmo)
                 .ThrottleFirst(
                     System.TimeSpan.FromSeconds(_fireRate),
                     UnityTimeProvider.Update
@@ -89,7 +92,10 @@
 
             // 単発射撃の処理
             Observable.EveryUpdate()
-                .Where(_ => Input.GetButtonDown("Fire1") && !_playerStatus.IsDead.Value && !_weaponInventory.IsCurrentWeaponFillAuto)
+                .Where(_ => Input.GetButtonDown("Fire1") 
+                && !_playerStatus.IsDead.Value 
+                && !_weaponInventory.IsCurrentWeaponFillAuto
+                && _weaponInventory.HasAmmo)
                 .Subscribe(_ =>
                 {
                     _bulletController.Shoot();

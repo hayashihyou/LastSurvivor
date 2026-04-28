@@ -1,5 +1,6 @@
 ﻿namespace LastSurvivor
 {
+    using System.Collections;
     using UnityEngine;
     using UnityEngine.InputSystem;
 
@@ -22,8 +23,21 @@
             weapons[_selectedIndex] != null &&
             weapons[_selectedIndex].IsFullAuto;
 
+        /// <summary>
+        /// 現在選択されている武器に弾薬が残っているかどうかを返す
+        /// </summary>
+        public bool HasAmmo => 
+            !_isReloading &&
+            weapons != null &&
+            _selectedIndex < weapons.Length &&
+            weapons[_selectedIndex] != null &&
+            weapons[_selectedIndex].CurrentAmmo > 0;
+
         // 現在選択されている武器のデータを返す
         private int _selectedIndex = 0;
+
+        // リロード中かどうかを管理するフラグ
+        private bool _isReloading = false;
 
         /// <summary>
         /// ゲーム開始時に武器スロットのUIをセットアップし、最初の武器を選択する
@@ -32,9 +46,10 @@
         {
             for (int i = 0; i < weaponSlots.Length; i++)
             {
-                if(i < weapons.Length && weapons[i] != null)
+                if (i < weapons.Length && weapons[i] != null)
                 {
                     weapons[i].CurrentAmmo = weapons[i].MaxAmmo;
+                    weapons[i].ReserveAmmo = weapons[i].MaxReserveAmmo;
                 }
                 weaponSlots[i].Setup(i < weapons.Length ? weapons[i] : null);
             }
@@ -43,11 +58,41 @@
             SelectWeapon(0);
         }
 
+        public void StartReload()
+        {
+            var w = weapons[_selectedIndex];
+            if (_isReloading || w.CurrentAmmo == w.MaxAmmo || w.ReserveAmmo <= 0)
+            {
+                return;
+            }
+
+            StartCoroutine(ReloadCoroutine(w));
+        }
+
+        private IEnumerator ReloadCoroutine(WeaponData w)
+        {
+            _isReloading = true;
+            yield return new WaitForSeconds(w.ReloadTime);
+
+            int needed = w.MaxAmmo - w.CurrentAmmo;
+            int take = Mathf.Min(needed, w.ReserveAmmo);
+            w.CurrentAmmo += take;
+            w.ReserveAmmo -= take;
+
+            weaponSlots[_selectedIndex].UpdateAmmo();
+            _isReloading = false;
+        }
+
         /// <summary>
         /// 毎フレーム、マウスホイールの入力をチェックして武器の切り替えを行う また、数字キーで直接武器を選択できるようにする
         /// </summary>
         private void Update()
         {
+            if(Input.GetKeyDown(KeyCode.R))
+            {
+                StartReload();
+            }
+
             // マウスホイールの入力をチェックして武器の切り替え
             float scroll = Input.GetAxis("Mouse ScrollWheel");
             if (scroll > 0f)
@@ -82,7 +127,7 @@
         void SelectWeapon(int index)
         {
             _selectedIndex = index;
-            for(int i=0;i<weaponSlots.Length; i++)
+            for (int i = 0; i < weaponSlots.Length; i++)
             {
                 // 各スロットの選択状態を更新
                 weaponSlots[i].SetSelected(i == _selectedIndex);
@@ -94,9 +139,9 @@
         /// </summary>
         public void ConsumeAmmo()
         {
-           var w = weapons[_selectedIndex];
-              if(w.CurrentAmmo > 0)
-              {
+            var w = weapons[_selectedIndex];
+            if (w.CurrentAmmo > 0)
+            {
                 w.CurrentAmmo--;
                 weaponSlots[_selectedIndex].UpdateAmmo();
             }

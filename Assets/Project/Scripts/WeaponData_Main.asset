@@ -16,5 +16,7 @@ MonoBehaviour:
   Icon: {fileID: 870513118, guid: b3c9746d9b8b42c4d861be422bfe8a79, type: 3}
   MaxAmmo: 30
   CurrentAmmo: 0
+  MaxReserveAmmo: 90
   ReserveAmmo: 90
+  ReloadTime: 1
   IsFullAuto: 1
