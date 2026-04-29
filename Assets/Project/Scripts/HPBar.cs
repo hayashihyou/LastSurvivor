@@ -32,8 +32,8 @@
         /// <summary>
         /// HPバーを更新するメソッド
         /// </summary>
-        /// <param name="current"></param>
-        /// <param name="max"></param>
+        /// <param name="current">現在のHP</param>
+        /// <param name="max">最大HP</param>
         public void SetUPTask(float current, float max)
         {
             float ratio = current / max;

@@ -1,32 +1,49 @@
-﻿using UnityEngine;
-
-public class Crosshair : MonoBehaviour
+﻿namespace LastSurvivor
 {
-    [Header("見た目")]
-    public float lineLength = 20f;
-    public float lineThickness = 2f;
-    public Color crosshairColor = Color.white;
+    using UnityEngine;
 
-    private void Start()
+    /// <summary>
+    /// クロスヘアを生成するクラス
+    /// </summary>
+    public class Crosshair : MonoBehaviour
     {
-        CreateCrosshair();  
-    }
+        [Header("見た目")]
+        private float lineLength = 20f;
+        public float lineThickness = 2f;
+        public Color crosshairColor = Color.white;
 
-    void CreateCrosshair()
-    {
-        CreateLine("Horizontal", new Vector2(lineLength, lineThickness));
+        /// <summary>
+        /// クロスヘアを生成するための初期化処理
+        /// </summary>
+        private void Start()
+        {
+            CreateCrosshair();
+        }
 
-        CreateLine("Vertical", new Vector2(lineThickness, lineLength));
-    }
+        /// <summary>
+        /// クロスヘアを生成するためのメソッド
+        /// </summary>
+        void CreateCrosshair()
+        {
+            CreateLine("Horizontal", new Vector2(lineLength, lineThickness));
 
-    void CreateLine(string name, Vector2 size)
-    {
-        var go = new GameObject(name, typeof(RectTransform), typeof(CanvasRenderer), typeof(UnityEngine.UI.Image));
-        go.transform.SetParent(transform, false);
+            CreateLine("Vertical", new Vector2(lineThickness, lineLength));
+        }
 
-        var rt =go.GetComponent<RectTransform>();
-        rt.sizeDelta = size;
+        /// <summary>
+        /// クロスヘアの線を生成するためのメソッド
+        /// </summary>
+        /// <param name="name">線の名前</param>
+        /// <param name="size">線のサイズ</param>
+        void CreateLine(string name, Vector2 size)
+        {
+            var go = new GameObject(name, typeof(RectTransform), typeof(CanvasRenderer), typeof(UnityEngine.UI.Image));
+            go.transform.SetParent(transform, false);
 
-        go.GetComponent<UnityEngine.UI.Image>().color = crosshairColor;
+            var rt = go.GetComponent<RectTransform>();
+            rt.sizeDelta = size;
+
+            go.GetComponent<UnityEngine.UI.Image>().color = crosshairColor;
+        }
     }
 }

@@ -44,7 +44,7 @@
         /// </summary>
         void Start()
         {
-            for (int i = 0; i < weaponSlots.Length; i++)
+            for (var i = 0; i < weaponSlots.Length; i++)
             {
                 if (i < weapons.Length && weapons[i] != null)
                 {
@@ -109,7 +109,7 @@
             }
 
             // 数字キーで直接武器を選択
-            for (int i = 0; i < weapons.Length && i < 4; i++)
+            for (var i = 0; i < weapons.Length && i < 4; i++)
             {
                 // 数字キーはKeyCode.Alpha1から始まるため、iを足してチェック
                 if (Input.GetKeyDown(KeyCode.Alpha1 + i))
@@ -127,7 +127,7 @@
         void SelectWeapon(int index)
         {
             _selectedIndex = index;
-            for (int i = 0; i < weaponSlots.Length; i++)
+            for (var i = 0; i < weaponSlots.Length; i++)
             {
                 // 各スロットの選択状態を更新
                 weaponSlots[i].SetSelected(i == _selectedIndex);

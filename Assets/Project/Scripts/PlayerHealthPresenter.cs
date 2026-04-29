@@ -13,6 +13,9 @@
         [Header("プレイヤーのHPビュー"),SerializeField]
         private PlayerHealthView _view;
 
+        // ダメージ量
+        private int _damage = 10;
+
         /// <summary>
         /// プレイヤーのHPが変化したときにビューを更新するための初期化処理
         /// </summary>
@@ -24,7 +27,7 @@
                 .AddTo(this);
 
             // ビューのダメージ入力イベントに対して、モデルのTakeDamageメソッドを呼び出す
-            _view.OnDamageInput += () => _model.TakeDamage(10);
+            _view.OnDamageInput += () => _model.TakeDamage(_damage);
         }
     }
 }
