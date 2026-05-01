@@ -36,21 +36,21 @@
         public ReactiveProperty<bool> IsFiring { get; private set; } = new ReactiveProperty<bool>(false);
 
         /// <summary>
-        /// ゲーム開始時に武器の元の位置を保存し、イベントを購読する
+        /// 初期化処理
         /// </summary>
         private void Start()
         {
-            // 武器の元の位置を保存
+            // 武器の元の位置を保存し、イベントを購読する
             _originalPosition = _weaponPivot.localPosition;
             SubscribeEvents();
         }
 
         /// <summary>
-        /// 毎フレーム、武器を元の位置に戻す処理を行う
+        /// 更新処理
         /// </summary>
         private void Update()
         {
-            // 武器を元の位置に戻す
+            // 毎フレーム、武器を元の位置に戻す処理を行う
             _weaponPivot.localPosition = Vector3.Lerp(_weaponPivot.localPosition, _originalPosition, Time.deltaTime * _returnSpeed);
         }
 
@@ -61,7 +61,7 @@
         {
             // 死亡時に射撃状態を強制でオフにする
             _playerStatus.IsDead
-                .Where(isDead => isDead)
+                .Where(isDead => true)
                 .Subscribe(_ => IsFiring.Value = false)
                 .AddTo(this);
 

@@ -195,9 +195,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1b1edde61deb9d4681b82d8063b5d1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponInventory
-  weapons:
+  _weaponData:
   - {fileID: 11400000, guid: fc860267291f31b4d8490e1fddffda6e, type: 2}
-  weaponSlots:
+  _weaponSlotUI:
   - {fileID: 1970152346}
 --- !u!1 &10116542
 GameObject:
@@ -5969,9 +5969,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2e9914a7d5f19249a0efe70b5a11e0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Crosshair
-  lineLength: 20
-  lineThickness: 2
-  crosshairColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &709783186
 GameObject:
   m_ObjectHideFlags: 0
@@ -7023,11 +7020,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 790531d52540215499d5c6aa12916db6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LastSurvivor.WeaponSlotUI
-  IconImage: {fileID: 1899686303}
-  AmmoText: {fileID: 1645445344}
-  HighlightBorder: {fileID: 253641805}
-  SelectColor: {r: 0.2, g: 1, b: 0.2, a: 1}
-  DefaultColor: {r: 1, g: 1, b: 1, a: 0.3}
+  _iconImage: {fileID: 1899686303}
+  _ammoText: {fileID: 1645445344}
+  _highlightBorder: {fileID: 253641805}
 --- !u!222 &1970152348
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7312,7 +7307,6 @@ GameObject:
   - component: {fileID: 2104143046}
   - component: {fileID: 2104143049}
   - component: {fileID: 2104143051}
-  - component: {fileID: 2104143054}
   - component: {fileID: 2104143053}
   - component: {fileID: 2104143052}
   m_Layer: 6
@@ -7505,20 +7499,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1716eed8e07b8c4b9791e209b772c4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LastSurvivor.PlayerHealthPresenter
-  _model: {fileID: 2104143054}
   _view: {fileID: 2104143052}
---- !u!114 &2104143054
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2104143039}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 689461b9093fd3c418c3879dcaa48333, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LastSurvivor.PlayerHealthModel
   _playerStatus: {fileID: 2104143047}
 --- !u!1 &2114938143
 GameObject:

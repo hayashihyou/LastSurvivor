@@ -22,10 +22,10 @@
 
         [Header("低HPの色"), SerializeField]
         private Color _lowHPColor = Color.red;
-        
 
         [Header("中HPの閾値"), Range(0, 1), SerializeField]
         private float _midHPThreshold = 0.5f;
+
         [Header("低HPの閾値"), Range(0, 1), SerializeField]
         private float _lowHPThreshold = 0.25f;
 
@@ -48,6 +48,7 @@
             {
                 _fillImage.color = _midHPColor;
             }
+
             else
             {
                 _fillImage.color = _lowHPColor;

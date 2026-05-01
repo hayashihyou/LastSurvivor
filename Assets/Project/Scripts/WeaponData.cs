@@ -7,9 +7,6 @@
     /// </summary>
     [CreateAssetMenu(fileName = "WeaponData", menuName = "Weapon/Weapon Data")]
 
-    /// <summary>
-    /// 武器の名前、アイコン、弾薬数、フルオートかどうかなどの情報を格納するクラス
-    /// </summary>
     public class WeaponData : ScriptableObject
     {
         public string WeaponName;

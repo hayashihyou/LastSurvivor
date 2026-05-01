@@ -1,37 +1,38 @@
 ﻿namespace LastSurvivor
 {
-    using System.Collections;
     using UnityEngine;
-    using UnityEngine.InputSystem;
+    using Cysharp.Threading.Tasks;
+    using System.Threading;
 
     /// <summary>
     /// プレイヤーの武器インベントリを管理するクラス
     /// </summary>
     public class WeaponInventory : MonoBehaviour
     {
-        [Header("Weapon Data")]
-        public WeaponData[] weapons;
+        [Header("Weapon Data"),SerializeField]
+        private WeaponData[] _weaponData;
 
-        [Header("UI Slots")]
-        public WeaponSlotUI[] weaponSlots;
+        [Header("UI Slots"),SerializeField]
+        private WeaponSlotUI[] _weaponSlotUI;
 
         /// <summary>
         /// 現在選択されている武器がフルオートかどうかを返す
         /// </summary>
-        public bool IsCurrentWeaponFillAuto => weapons != null &&
-            _selectedIndex < weapons.Length &&
-            weapons[_selectedIndex] != null &&
-            weapons[_selectedIndex].IsFullAuto;
+        public bool IsCurrentWeaponFillAuto => 
+            _weaponData != null &&
+            _selectedIndex < _weaponData.Length &&
+            _weaponData[_selectedIndex] != null &&
+            _weaponData[_selectedIndex].IsFullAuto;
 
         /// <summary>
         /// 現在選択されている武器に弾薬が残っているかどうかを返す
         /// </summary>
         public bool HasAmmo => 
             !_isReloading &&
-            weapons != null &&
-            _selectedIndex < weapons.Length &&
-            weapons[_selectedIndex] != null &&
-            weapons[_selectedIndex].CurrentAmmo > 0;
+            _weaponData != null &&
+            _selectedIndex < _weaponData.Length &&
+            _weaponData[_selectedIndex] != null &&
+            _weaponData[_selectedIndex].CurrentAmmo > 0;
 
         // 現在選択されている武器のデータを返す
         private int _selectedIndex = 0;
@@ -39,47 +40,78 @@
         // リロード中かどうかを管理するフラグ
         private bool _isReloading = false;
 
+        private CancellationTokenSource _reloadCts;
+
         /// <summary>
         /// ゲーム開始時に武器スロットのUIをセットアップし、最初の武器を選択する
         /// </summary>
         void Start()
         {
-            for (var i = 0; i < weaponSlots.Length; i++)
+            for (var i = 0; i < _weaponSlotUI.Length; i++)
             {
-                if (i < weapons.Length && weapons[i] != null)
+                if (i < _weaponData.Length && _weaponData[i] != null)
                 {
-                    weapons[i].CurrentAmmo = weapons[i].MaxAmmo;
-                    weapons[i].ReserveAmmo = weapons[i].MaxReserveAmmo;
+                    _weaponData[i].CurrentAmmo = _weaponData[i].MaxAmmo;
+                    _weaponData[i].ReserveAmmo = _weaponData[i].MaxReserveAmmo;
                 }
-                weaponSlots[i].Setup(i < weapons.Length ? weapons[i] : null);
+                _weaponSlotUI[i].Setup(i < _weaponData.Length ? _weaponData[i] : null);
             }
 
             // 最初の武器を選択
             SelectWeapon(0);
         }
 
+        private void OnDestroy()
+        {
+            // GameObjectが破棄されるときにリロードのキャンセル
+            _reloadCts?.Cancel();
+            _reloadCts?.Dispose();
+        }
+
         public void StartReload()
         {
-            var w = weapons[_selectedIndex];
-            if (_isReloading || w.CurrentAmmo == w.MaxAmmo || w.ReserveAmmo <= 0)
+            var w = _weaponData[_selectedIndex];
+            var CannotReload = _isReloading || w.CurrentAmmo == w.MaxAmmo || w.ReserveAmmo <= 0;
+
+            if (CannotReload)
             {
                 return;
             }
 
-            StartCoroutine(ReloadCoroutine(w));
+            // 既にリロード中の場合はキャンセルしてから新しいリロードを開始
+            _reloadCts?.Cancel();
+            _reloadCts?.Dispose();
+            _reloadCts = CancellationTokenSource.CreateLinkedTokenSource(this.GetCancellationTokenOnDestroy());
+
+            ReloadAsync(w, _reloadCts.Token).Forget();
         }
 
-        private IEnumerator ReloadCoroutine(WeaponData w)
+       private async UniTaskVoid ReloadAsync(WeaponData w, CancellationToken ct)
         {
             _isReloading = true;
-            yield return new WaitForSeconds(w.ReloadTime);
+
+
+            // リロード時間を待機する。キャンセルされた場合は例外がスローされるので、catchブロックで処理する
+            try
+            {
+                await UniTask.Delay(
+                    (int)(w.ReloadTime * 1000),
+                    cancellationToken: ct
+                    );
+            }
+
+            catch (System.OperationCanceledException)
+            {
+                // リロードがキャンセルされた場合は何もしない
+                _isReloading = false;
+                return;
+            }
 
             int needed = w.MaxAmmo - w.CurrentAmmo;
             int take = Mathf.Min(needed, w.ReserveAmmo);
             w.CurrentAmmo += take;
             w.ReserveAmmo -= take;
-
-            weaponSlots[_selectedIndex].UpdateAmmo();
+            _weaponSlotUI[_selectedIndex].UpdateAmmo();
             _isReloading = false;
         }
 
@@ -98,23 +130,22 @@
             if (scroll > 0f)
             {
                 // 配列の範囲を考慮して次の武器を選択
-                SelectWeapon((_selectedIndex + 1) % weapons.Length);
+                SelectWeapon((_selectedIndex + 1) % _weaponData.Length);
             }
 
             // スクロールが負の場合は前の武器を選択（配列の範囲を考慮してループさせる）
             else if (scroll < 0f)
             {
                 // 配列の範囲を考慮して前の武器を選択
-                SelectWeapon((_selectedIndex - 1 + weapons.Length) % weapons.Length);
+                SelectWeapon((_selectedIndex - 1 + _weaponData.Length) % _weaponData.Length);
             }
 
-            // 数字キーで直接武器を選択
-            for (var i = 0; i < weapons.Length && i < 4; i++)
+            var limit = Mathf.Min(_weaponData.Length, 4);
+
+            for (var i = 0; i < limit; i++)
             {
-                // 数字キーはKeyCode.Alpha1から始まるため、iを足してチェック
                 if (Input.GetKeyDown(KeyCode.Alpha1 + i))
                 {
-                    // 数字キーに対応する武器を選択
                     SelectWeapon(i);
                 }
             }
@@ -127,10 +158,10 @@
         void SelectWeapon(int index)
         {
             _selectedIndex = index;
-            for (var i = 0; i < weaponSlots.Length; i++)
+            for (var i = 0; i < _weaponSlotUI.Length; i++)
             {
                 // 各スロットの選択状態を更新
-                weaponSlots[i].SetSelected(i == _selectedIndex);
+                _weaponSlotUI[i].SetSelected(i == _selectedIndex);
             }
         }
 
@@ -139,11 +170,11 @@
         /// </summary>
         public void ConsumeAmmo()
         {
-            var w = weapons[_selectedIndex];
+            var w = _weaponData[_selectedIndex];
             if (w.CurrentAmmo > 0)
             {
                 w.CurrentAmmo--;
-                weaponSlots[_selectedIndex].UpdateAmmo();
+                _weaponSlotUI[_selectedIndex].UpdateAmmo();
             }
         }
 
@@ -153,11 +184,11 @@
         /// <param name="weaponIndex"> 充填する武器のインデックス </param>
         public void RefreshAmmo(int weaponIndex)
         {
-            if (weaponIndex < 0 || weaponIndex >= weaponSlots.Length)
+            if (weaponIndex < 0 || weaponIndex >= _weaponSlotUI.Length)
             {
                 return;
             }
-            weaponSlots[weaponIndex].UpdateAmmo();
+            _weaponSlotUI[weaponIndex].UpdateAmmo();
         }
     }
 }

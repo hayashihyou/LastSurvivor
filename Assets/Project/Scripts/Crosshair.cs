@@ -8,12 +8,12 @@
     public class Crosshair : MonoBehaviour
     {
         [Header("見た目")]
-        private float lineLength = 20f;
-        public float lineThickness = 2f;
-        public Color crosshairColor = Color.white;
+        private float _lineLength = 20f;
+        private float _lineThickness = 2f;
+        private Color _crosshairColor = Color.white;
 
         /// <summary>
-        /// クロスヘアを生成するための初期化処理
+        /// 初期化処理
         /// </summary>
         private void Start()
         {
@@ -25,9 +25,9 @@
         /// </summary>
         void CreateCrosshair()
         {
-            CreateLine("Horizontal", new Vector2(lineLength, lineThickness));
+            CreateLine("Horizontal", new Vector2(_lineLength, _lineThickness));
 
-            CreateLine("Vertical", new Vector2(lineThickness, lineLength));
+            CreateLine("Vertical", new Vector2(_lineThickness, _lineLength));
         }
 
         /// <summary>
@@ -43,7 +43,7 @@
             var rt = go.GetComponent<RectTransform>();
             rt.sizeDelta = size;
 
-            go.GetComponent<UnityEngine.UI.Image>().color = crosshairColor;
+            go.GetComponent<UnityEngine.UI.Image>().color = _crosshairColor;
         }
     }
 }

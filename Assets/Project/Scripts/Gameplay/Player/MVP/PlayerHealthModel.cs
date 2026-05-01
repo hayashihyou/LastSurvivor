@@ -6,9 +6,8 @@
     /// <summary>
     /// プレイヤーのHPを管理するモデルクラス
     /// </summary>
-    public class PlayerHealthModel : MonoBehaviour
+    public class PlayerHealthModel
     {
-        [Header("プレイヤーのステータス"),SerializeField]
         private PlayerStatus _playerStatus;
 
         // 現在のHPを読み取り専用のリアクティブプロパティ
@@ -16,6 +15,15 @@
 
         // 最大HP
         public int MaxHP => _playerStatus.MaxHP;
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="playerStatus">プレイヤーのステータス情報</param>
+        public PlayerHealthModel(PlayerStatus playerStatus)
+        {
+            _playerStatus = playerStatus;
+        }
 
         // ダメージを受けるメソッド
         public void TakeDamage(int damage)

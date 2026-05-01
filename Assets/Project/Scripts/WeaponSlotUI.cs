@@ -3,21 +3,24 @@
     using UnityEngine;
     using UnityEngine.UI;
     using TMPro;
-    using LastSurvivor;
 
     /// <summary>
     /// 武器スロットのUIを管理するクラス
     /// </summary>
     public class WeaponSlotUI : MonoBehaviour
     {
-        [Header("UI References")]
-        public Image IconImage;
-        public TextMeshProUGUI AmmoText;
-        public Image HighlightBorder;
+        [Header("アイコン"),SerializeField]
+        private Image _iconImage;
+
+        [Header("弾薬数"),SerializeField]
+        private TextMeshProUGUI _ammoText;
+
+        [Header("選択ハイライト"),SerializeField]
+        private Image _highlightBorder;
 
         [Header("Colors")]
-        public Color SelectColor = new Color(0.2f, 1.0f, 0.2f, 1.0f);
-        public Color DefaultColor = new Color(1.0f, 1.0f, 1.0f, 0.3f);
+        private Color _selectColor = new Color(0.2f, 1.0f, 0.2f, 1.0f);
+        private Color _defaultColor = new Color(1.0f, 1.0f, 1.0f, 0.3f);
 
         // 現在の武器データを保持する
         private WeaponData _data;
@@ -31,13 +34,13 @@
             _data = data;
             if (_data == null)
             {
-                IconImage.enabled = false;
-                AmmoText.text = "";
+                _iconImage.enabled = false;
+                _ammoText.text = "";
                 return;
             }
 
-            IconImage.enabled = true;
-            IconImage.sprite = _data.Icon;
+            _iconImage.enabled = true;
+            _iconImage.sprite = _data.Icon;
             UpdateAmmo();
         }
 
@@ -51,7 +54,7 @@
                 return;
             }
 
-            AmmoText.text = $"{_data.CurrentAmmo} / {_data.ReserveAmmo}";
+            _ammoText.text = $"{_data.CurrentAmmo} / {_data.ReserveAmmo}";
         }
 
         /// <summary>
@@ -60,7 +63,7 @@
         /// <param name="isSelected"> 選択されているかどうか </param>
         public void SetSelected(bool isSelected)
         {
-            HighlightBorder.color = isSelected ? SelectColor : DefaultColor;
+            _highlightBorder.color = isSelected ? _selectColor : _defaultColor;
         }
     }
 }
