@@ -1,5 +1,12 @@
 fileFormatVersion: 2
 guid: 27110d602e3c1494d84cd996f25e3305
+AssetOrigin:
+  serializedVersion: 1
+  productId: 356122
+  packageName: Low Poly Weapon Series 4 MW 1
+  packageVersion: 1.0
+  assetPath: Assets/Low Poly Weapon Pack 4_MW_1/UI/Weapons/Pistol_P_Line.png
+  uploadId: 848724
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -95,12 +102,34 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Pistol_P_Line_0
+      rect:
+        serializedVersion: 2
+        x: 410
+        y: 94
+        width: 1006
+        height: 898
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7230a9a843b00c644b21c81864b48b6e
+      internalID: -1991889395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5b968305aac4a92498c05f1b3a8e85a5
     internalID: 0
     vertices: []
     indices: 
@@ -108,17 +137,15 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
-    nameFileIdTable: {}
+      entries:
+      - key: SpriteEditor.SliceOnImport
+        value: True
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":true,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Pistol_P_Line_0: -1991889395
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 356122
-  packageName: Low Poly Weapon Series 4 MW 1
-  packageVersion: 1.0
-  assetPath: Assets/Low Poly Weapon Pack 4_MW_1/UI/Weapons/Pistol_P_Line.png
-  uploadId: 848724

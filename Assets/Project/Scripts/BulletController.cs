@@ -24,8 +24,9 @@
 
         [Header("弾の寿命"),SerializeField]
         private float _bulletLifetime = 5f;
+
         /// <summary>
-        /// 弾を発射するタスク
+        /// 弾を発射する
         /// </summary>
         public void Shoot()
         {
