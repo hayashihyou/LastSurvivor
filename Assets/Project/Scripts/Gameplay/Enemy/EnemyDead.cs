@@ -12,8 +12,9 @@
         [Header("死亡後の削除までの時間"),SerializeField]
         private float _destroyTime = 3f;
 
-        [Header("死亡エフェクト"), SerializeField]
-        private GameObject _deadEffectPrefab;
+        // NOTE: 死亡エフェクトを実装したらコメントアウトを外す
+        //[Header("死亡エフェクト"), SerializeField]
+        //private GameObject _deadEffectPrefab;
 
         private EnemyStatus _enemyStatus;
         private Collider _collider;
@@ -42,7 +43,7 @@
         void HandleDead()
         {
             DisableComponents();
-            PlayDeadEffect();
+            //PlayDeadEffect();
 
             // 一定時間後にエネミーを削除
             Observable
@@ -73,15 +74,15 @@
         /// <summary>
         /// エネミーの死亡エフェクトを再生するメソッド
         /// </summary>
-        void PlayDeadEffect()
-        {
-           if(_deadEffectPrefab == null)
-            {
-                return;
-            }
+        //void PlayDeadEffect()
+        //{
+        //   if(_deadEffectPrefab == null)
+        //    {
+        //        return;
+        //    }
 
-            // 死亡エフェクトをインスタンス化
-            Instantiate(_deadEffectPrefab, transform.position, Quaternion.identity);
-        }
+        //    // 死亡エフェクトをインスタンス化
+        //    Instantiate(_deadEffectPrefab, transform.position, Quaternion.identity);
+        //}
     }
 }
