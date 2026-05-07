@@ -25,7 +25,10 @@
             _playerStatus = playerStatus;
         }
 
-        // ダメージを受けるメソッド
+        /// <summary>
+        /// ダメージを受けるメソッド
+        /// </summary>
+        /// <param name="damage">受けるダメージ量</param>
         public void TakeDamage(int damage)
         {
             _playerStatus.TakeDamageTask(damage);
