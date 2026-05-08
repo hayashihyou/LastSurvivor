@@ -11,27 +11,26 @@
         [Header("アニメーター"),SerializeField]
         private Animator _animator;
 
+        [Header("エネミーステータス"),SerializeField]
+        private EnemyStatus _enemyStatus;
+
+        [Header("エネミー移動"),SerializeField]
+        private EnemyMover _enemyMover;
+
+        [Header("エネミー攻撃"),SerializeField]
+        private EnemyAttacker _enemyAttacker;
+
         // Animatorのパラメータ名
         private static readonly int IsMovingHash = Animator.StringToHash("IsMoving");
         private static readonly int IsChasingHash = Animator.StringToHash("IsChasing");
         private static readonly int IsAttackingHash = Animator.StringToHash("IsAttacking");
         private static readonly int IsDeadHash = Animator.StringToHash("IsDead");
 
-        // エネミーのステータス、移動、攻撃を管理するクラスへの参照
-        private EnemyStatus _enemyStatus;
-        private EnemyMover _enemyMover;
-        private EnemyAttacker _enemyAttacker;
-
         /// <summary>
         /// 初期化処理
         /// </summary>
         void Start()
         {
-            // コンポーネントの取得
-            _enemyStatus = GetComponent<EnemyStatus>();
-            _enemyMover = GetComponent<EnemyMover>();
-            _enemyAttacker = GetComponent<EnemyAttacker>();
-
             SubscribeAll();
         }
 
@@ -57,21 +56,6 @@
                 .Take(1)
                 .Subscribe(isDead => _animator.SetBool(IsDeadHash, isDead))
                 .AddTo(this);
-        }
-
-        /// <summary>
-        /// Animatorのパラメータを安全に更新するためのヘルパーメソッド
-        /// </summary>
-        /// <param name="paramHash">更新するパラメータのハッシュ値</param>
-        /// <param name="value">設定する値</param>
-        void SetBool(int paramHash, bool value)
-        {
-            if(_animator == null)
-            {
-                return;
-            }
-
-            _animator.SetBool(paramHash, value);
         }
     }
 }

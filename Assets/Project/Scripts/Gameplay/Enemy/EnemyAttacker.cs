@@ -28,8 +28,7 @@
         /// </summary>
         void Awake()
         {
-            // ReactivePropertyの初期化
-            IsAttacking = new ReactiveProperty<bool>(false);
+           
         }
 
         /// <summary>
@@ -78,6 +77,9 @@
         /// </summary>
         public void TryAttack()
         {
+            // ReactivePropertyの初期化
+            IsAttacking = new ReactiveProperty<bool>(false);
+
             // 攻撃できない条件をチェック
             var cannotAttack = _enemyStatus.IsDead.Value || _playerStatus == null || _playerStatus.IsDead.Value || _cooldownTimer > 0f;
 

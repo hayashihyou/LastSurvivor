@@ -314,6 +314,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LastSurvivor.EnemyDead
   _destroyTime: 3
+  _enemyStatus: {fileID: 153171754}
+  _collider: {fileID: 0}
+  _navMeshAgent: {fileID: 153171760}
 --- !u!114 &153171757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,6 +343,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LastSurvivor.EnemyAnimator
   _animator: {fileID: 153171761}
+  _enemyStatus: {fileID: 153171754}
+  _enemyMover: {fileID: 153171755}
+  _enemyAttacker: {fileID: 153171757}
 --- !u!114 &153171759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,6 +358,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90a1b55618a38e4449006d35d6e53c80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LastSurvivor.EnemyAI
+  _enemyStatus: {fileID: 153171754}
+  _enemyMover: {fileID: 153171755}
+  _enemyAttacker: {fileID: 153171757}
+  _playerTransform: {fileID: 6766536238558749962}
 --- !u!195 &153171760
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -379,6 +389,29 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 7822753204050536685, guid: 6f8e61bcfda026941b9194b1e2dcb048, type: 3}
   m_PrefabInstance: {fileID: 2056227706}
   m_PrefabAsset: {fileID: 0}
+--- !u!136 &153171763
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 153171753}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &199342479
 GameObject:
   m_ObjectHideFlags: 0
@@ -7452,7 +7485,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3547707238052702253, guid: 6f8e61bcfda026941b9194b1e2dcb048, type: 3}
       propertyPath: m_Name
-      value: ZombieMale_AAB_URP
+      value: Zombie
       objectReference: {fileID: 0}
     - target: {fileID: 4210914318428336791, guid: 6f8e61bcfda026941b9194b1e2dcb048, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7500,15 +7533,7 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 6274fbc41ee074fba819fb8c275e9558, type: 2}
     - target: {fileID: 7822753204050536685, guid: 6f8e61bcfda026941b9194b1e2dcb048, type: 3}
       propertyPath: m_WarningMessage
-      value: "\nBinding warning: Some generic clip(s) animate transforms that are
-        already bound by a Humanoid avatar. These transforms can only be changed
-        by Humanoid clips.\n\tTransform 'root'\n\tTransform 'lowerarm_l'\n\tTransform
-        'root'\n\tTransform 'neck_01'\n\tTransform 'clavicle_l'\n\tTransform 'ring_02_l'\n\tTransform
-        'hand_l'\n\tTransform 'middle_01_l'\n\tTransform 'ring_01_r'\n\tTransform
-        'spine_02'\n\tand more ...\n\tFrom animation clip 'Idle1'\n\tFrom animation
-        clip 'Walk1'\n\tFrom animation clip 'Scream'\n\tFrom animation clip 'Run'\n\tFrom
-        animation clip 'Dead2'\n\tFrom animation clip 'ReactionHit'\n\tFrom animation
-        clip 'Attack1'\n\tFrom animation clip 'StandUp1'\n\tFrom animation clip 'Crawl'"
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7822753204050536685, guid: 6f8e61bcfda026941b9194b1e2dcb048, type: 3}
       propertyPath: m_ApplyRootMotion
@@ -7539,6 +7564,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3547707238052702253, guid: 6f8e61bcfda026941b9194b1e2dcb048, type: 3}
       insertIndex: -1
       addedObject: {fileID: 153171754}
+    - targetCorrespondingSourceObject: {fileID: 3547707238052702253, guid: 6f8e61bcfda026941b9194b1e2dcb048, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 153171763}
   m_SourcePrefab: {fileID: 100100000, guid: 6f8e61bcfda026941b9194b1e2dcb048, type: 3}
 --- !u!1 &2104143039
 GameObject:

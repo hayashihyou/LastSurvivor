@@ -20,16 +20,22 @@
         }
 
         // 敵のステータスを管理するクラスへの参照
+        [Header("敵のステータス"),SerializeField]
         private EnemyStatus _enemyStatus;
 
         // 敵の移動を管理するクラスへの参照
+        [Header("敵の移動"),SerializeField]
         private EnemyMover _enemyMover;
 
         // 敵の攻撃を管理するクラスへの参照
+        [Header("敵の攻撃"),SerializeField]
         private EnemyAttacker _enemyAttacker;
 
         // プレイヤーのTransformへの参照
+        [Header("プレイヤーのTransform"),SerializeField]
         private Transform _playerTransform;
+
+        private string _playerTag = "Player";
 
         // 敵の現在の状態を管理するReactiveProperty
         public ReactiveProperty<EnemyState> CurrentState { get; private set; }
@@ -46,14 +52,9 @@
         /// <summary>
         /// ゲーム開始時に呼び出される初期化メソッド
         /// </summary>
-        void Start()
+        private void Start()
         {
-            // エネミーのステータス、移動、攻撃を管理するクラスへの参照を取得
-            _enemyStatus = GetComponent<EnemyStatus>();
-            _enemyMover = GetComponent<EnemyMover>();
-            _enemyAttacker = GetComponent<EnemyAttacker>();
-
-            var playerObject = GameObject.FindGameObjectWithTag("Player");
+            var playerObject = GameObject.FindGameObjectWithTag(_playerTag);
             if (playerObject != null)
             {
                 _playerTransform = playerObject.transform;
@@ -69,7 +70,7 @@
         /// <summary>
         /// 毎フレーム呼び出される更新メソッド
         /// </summary>
-        void Update()
+        private void Update()
         {
             // 現在の状態に応じて適切な更新処理を呼び出す
             switch (CurrentState.Value)
@@ -94,7 +95,7 @@
         /// <summary>
         /// Idle状態の更新処理
         /// </summary>
-        void UpdateIdle()
+         private void UpdateIdle()
         {
             if(_playerTransform == null)
             {
@@ -110,7 +111,7 @@
         /// <summary>
         /// Chase状態の更新処理
         /// </summary>
-        void UpdateChase()
+         private void UpdateChase()
         {
             if(_playerTransform == null)
             {
@@ -132,7 +133,7 @@
         /// <summary>
         /// Attack状態の更新処理
         /// </summary>
-        void UpdateAttack()
+         private void UpdateAttack()
         {
             if(_playerTransform == null)
             {
@@ -152,7 +153,7 @@
         /// 状態遷移を管理するメソッド
         /// </summary>
         /// <param name="nextState">遷移先の状態</param>
-        void TransitionTo(EnemyState nextState)
+         private void TransitionTo(EnemyState nextState)
         {
             if(CurrentState.Value == nextState)
             {
@@ -168,7 +169,7 @@
         /// 状態に入る際の処理を管理するメソッド
         /// </summary>
         /// <param name="state">遷移先の状態</param>
-        void OnEnterState(EnemyState state)
+         private void OnEnterState(EnemyState state)
         {
             switch (state)
             {
@@ -194,14 +195,13 @@
         /// 状態から出る際の処理を管理するメソッド
         /// </summary>
         /// <param name="state">遷移元の状態</param>
-        void OnExitState(EnemyState state) { }
+        private void OnExitState(EnemyState state) { }
 
         /// <summary>
         /// プレイヤーが指定した範囲内にいるかどうかを判定するメソッド
         /// </summary>
         /// <param name="range">判定する範囲</param>
-        /// <returns></returns>
-        bool IsPlayerInRange(float range)
+        private bool IsPlayerInRange(float range)
         {
             return Vector3.Distance(transform.position, _playerTransform.position) <= range;
         }
