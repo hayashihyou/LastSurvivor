@@ -28,7 +28,7 @@
         /// <summary>
         /// 更新処理
         /// </summary>
-        void Update()
+        private void Update()
         {
             // NOTE: hayashi Fキーを押したときにダメージ入力があったとみなしているが、敵を実装したら敵の攻撃に対してダメージ入力があったとみなすようにする
             if (Input.GetKeyDown(KeyCode.F))

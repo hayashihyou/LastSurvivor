@@ -51,7 +51,7 @@
         // プレイヤーの走行状態と移動状態
         public ReactiveProperty<bool> IsRunning { get; private set; } 
         public ReactiveProperty<bool> IsMoving { get; private set; }
-        void Awake()
+        private void Awake()
         {
             IsRunning = new ReactiveProperty<bool>(false);
             IsMoving = new ReactiveProperty<bool>(false);
@@ -64,7 +64,7 @@
         /// <summary>
         /// インスタンス化直後に呼び出される初期化処理
         /// </summary>
-        void Start()
+        private void Start()
         {
             _playerStatus = GetComponent<PlayerStatus>();
         }
@@ -72,7 +72,7 @@
         /// <summary>
         /// 更新
         /// </summary>
-        void Update()
+        private void Update()
         {
             if (_playerStatus.IsDead.Value)
             {

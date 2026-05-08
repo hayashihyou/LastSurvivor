@@ -23,7 +23,7 @@
         /// <summary>
         /// プレイヤーのHPが変化したときにビューを更新するための初期化処理
         /// </summary>
-        void Start()
+        private void Start()
         {
             _model = new PlayerHealthModel(_playerStatus);
 

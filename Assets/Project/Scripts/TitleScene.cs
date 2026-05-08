@@ -1,4 +1,4 @@
-namespace LastSurvivor
+﻿namespace LastSurvivor
 {
     using Cysharp.Threading.Tasks;
     using R3;
@@ -16,7 +16,7 @@ namespace LastSurvivor
         /// <summary>
         /// インスタンス化直後に呼び出される初期化処理
         /// </summary>
-        void Start()
+        private void Start()
         {
             // スタートボタンのクリックイベントを購読
             _startButton.onClick.AsObservable()
