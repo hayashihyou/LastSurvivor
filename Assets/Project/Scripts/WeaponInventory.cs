@@ -45,7 +45,7 @@
         /// <summary>
         /// ゲーム開始時に武器スロットのUIをセットアップし、最初の武器を選択する
         /// </summary>
-        void Start()
+        private void Start()
         {
             for (var i = 0; i < _weaponSlotUI.Length; i++)
             {
@@ -155,7 +155,7 @@
         /// 指定されたインデックスの武器を選択し、UIを更新する
         /// </summary>
         /// <param name="index"> 選択する武器のインデックス </param>
-        void SelectWeapon(int index)
+        private void SelectWeapon(int index)
         {
             _selectedIndex = index;
             for (var i = 0; i < _weaponSlotUI.Length; i++)

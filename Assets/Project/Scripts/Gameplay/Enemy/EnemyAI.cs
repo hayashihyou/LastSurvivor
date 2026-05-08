@@ -35,26 +35,15 @@
         [Header("プレイヤーのTransform"),SerializeField]
         private Transform _playerTransform;
 
-        private string _playerTag = "Player";
-
         // 敵の現在の状態を管理するReactiveProperty
-        public ReactiveProperty<EnemyState> CurrentState { get; private set; }
-
-        /// <summary>
-        /// インスタンス直後で呼び出される初期化メソッド
-        /// </summary>
-        void Awake()
-        {
-            // 初期状態をIdleに設定
-            CurrentState = new ReactiveProperty<EnemyState>(EnemyState.Idle);
-        }
+        public ReactiveProperty<EnemyState> CurrentState { get; private set; } = new ReactiveProperty<EnemyState>(EnemyState.Idle); 
 
         /// <summary>
         /// ゲーム開始時に呼び出される初期化メソッド
         /// </summary>
         private void Start()
         {
-            var playerObject = GameObject.FindGameObjectWithTag(_playerTag);
+            var playerObject = GameObject.FindGameObjectWithTag(TagConsts.Player);
             if (playerObject != null)
             {
                 _playerTransform = playerObject.transform;
@@ -95,7 +84,7 @@
         /// <summary>
         /// Idle状態の更新処理
         /// </summary>
-         private void UpdateIdle()
+        private void UpdateIdle()
         {
             if(_playerTransform == null)
             {
@@ -111,7 +100,7 @@
         /// <summary>
         /// Chase状態の更新処理
         /// </summary>
-         private void UpdateChase()
+        private void UpdateChase()
         {
             if(_playerTransform == null)
             {
@@ -133,7 +122,7 @@
         /// <summary>
         /// Attack状態の更新処理
         /// </summary>
-         private void UpdateAttack()
+        private void UpdateAttack()
         {
             if(_playerTransform == null)
             {
@@ -153,7 +142,7 @@
         /// 状態遷移を管理するメソッド
         /// </summary>
         /// <param name="nextState">遷移先の状態</param>
-         private void TransitionTo(EnemyState nextState)
+        private void TransitionTo(EnemyState nextState)
         {
             if(CurrentState.Value == nextState)
             {
@@ -169,7 +158,7 @@
         /// 状態に入る際の処理を管理するメソッド
         /// </summary>
         /// <param name="state">遷移先の状態</param>
-         private void OnEnterState(EnemyState state)
+        private void OnEnterState(EnemyState state)
         {
             switch (state)
             {

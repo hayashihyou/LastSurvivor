@@ -29,7 +29,7 @@
         /// <summary>
         /// 初期化処理
         /// </summary>
-        void Start()
+        private void Start()
         {
             SubscribeAll();
         }
@@ -37,7 +37,7 @@
         /// <summary>
         /// エネミーの状態を監視し、アニメーターのパラメータを更新するための購読処理
         /// </summary>
-        void SubscribeAll()
+        private void SubscribeAll()
         {
             _enemyMover.IsMoving
                 .Subscribe(isMoving => _animator.SetBool(IsMovingHash, isMoving))

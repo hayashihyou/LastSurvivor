@@ -22,7 +22,7 @@
         /// <summary>
         /// インスタンス化直後に呼び出される初期化処理
         /// </summary>
-        void Start()
+        private void Start()
         {
             _resultButton.onClick.AsObservable()
                 .Subscribe(_ => ResultTask())

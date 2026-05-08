@@ -31,7 +31,7 @@
         /// <summary>
         /// インスタンス化直後に呼び出される初期化処理
         /// </summary>
-        void Awake()
+        private void Awake()
         {
             // アニメーターがnullの場合、取得
             if (_animator == null)
@@ -43,7 +43,7 @@
         /// <summary>
         /// インスタンス化直後に呼び出される初期化処理
         /// </summary>
-        void Start()
+        private void Start()
         {
             SubscribeEvents();
         }

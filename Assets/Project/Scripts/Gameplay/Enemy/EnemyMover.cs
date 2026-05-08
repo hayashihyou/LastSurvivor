@@ -41,7 +41,7 @@
         /// <summary>
         /// インスタンス直後に呼び出される初期化メソッド
         /// </summary>
-        void Awake()
+        private void Awake()
         {
             // ReactivePropertyの初期化
             IsMoving = new ReactiveProperty<bool>(false);
@@ -71,7 +71,7 @@
         /// <summary>
         /// 毎フレーム呼び出される更新メソッド
         /// </summary>
-        void Update()
+         private void Update()
         {
             // 敵が死亡している場合は移動を停止
             if (_enemyStatus.IsDead.Value)

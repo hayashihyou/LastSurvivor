@@ -24,23 +24,15 @@
         private float _cooldownTimer = 0f;
 
         /// <summary>
-        /// インスタンス直後に呼び出される初期化メソッド
-        /// </summary>
-        void Awake()
-        {
-           
-        }
-
-        /// <summary>
         /// ゲーム開始時に呼び出される初期化メソッド
         /// </summary>
-        void Start()
+        private void Start()
         {
             // 敵のステータスを管理するクラスへの参照を取得
             _enemyStatus = GetComponent<EnemyStatus>();
 
             // プレイヤーのステータスを管理するクラスへの参照を取得
-            var playerObject = GameObject.FindGameObjectWithTag("Player");
+            var playerObject = GameObject.FindGameObjectWithTag(TagConsts.Player);
             if(playerObject != null)
             {
                 _playerStatus = playerObject.GetComponent<PlayerStatus>();
@@ -50,7 +42,7 @@
         /// <summary>
         /// 毎フレーム呼び出される更新メソッド
         /// </summary>
-        void Update()
+        private void Update()
         {
             // 敵が死亡している場合は攻撃を行わない
             if (_enemyStatus.IsDead.Value)
@@ -64,7 +56,7 @@
         /// <summary>
         /// 攻撃のクールタイムを管理するメソッド
         /// </summary>
-        void TickCooldownTask()
+        private void TickCooldownTask()
         {
             if(_cooldownTimer > 0f)
             {
@@ -101,7 +93,7 @@
         /// <summary>
         /// プレイヤーが攻撃範囲内にいるかをチェックするメソッド
         /// </summary>
-        bool IsInAttackRange()
+        private bool IsInAttackRange()
         {
             if(_playerStatus == null)
             {
@@ -115,7 +107,7 @@
         /// <summary>
         /// 攻撃を実行するメソッド
         /// </summary>
-        void ExecuteAttack()
+        private void ExecuteAttack()
         {
             IsAttacking.Value = true;
             _playerStatus.TakeDamageTask(_enemyStatus.AttackPower);

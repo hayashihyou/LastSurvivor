@@ -23,7 +23,7 @@
         /// <summary>
         /// クロスヘアを生成するためのメソッド
         /// </summary>
-        void CreateCrosshair()
+        private void CreateCrosshair()
         {
             CreateLine("Horizontal", new Vector2(_lineLength, _lineThickness));
 
@@ -35,7 +35,7 @@
         /// </summary>
         /// <param name="name">線の名前</param>
         /// <param name="size">線のサイズ</param>
-        void CreateLine(string name, Vector2 size)
+        private void CreateLine(string name, Vector2 size)
         {
             var go = new GameObject(name, typeof(RectTransform), typeof(CanvasRenderer), typeof(UnityEngine.UI.Image));
             go.transform.SetParent(transform, false);

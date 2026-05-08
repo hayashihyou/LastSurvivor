@@ -28,7 +28,7 @@
         /// <summary>
         /// ゲーム開始時に呼び出される初期化メソッド
         /// </summary>
-        void Start()
+        private void Start()
         {
             // エネミーの死亡状態を監視し、死亡した場合の処理を実行
             _enemyStatus.IsDead
@@ -40,7 +40,7 @@
         /// <summary>
         /// エネミーが死亡した際の処理を行うメソッド
         /// </summary>
-        void HandleDead()
+        private void HandleDead()
         {
             DisableComponents();
             //PlayDeadEffect();
@@ -55,7 +55,7 @@
         /// <summary>
         /// エネミーの死亡後に無効化するコンポーネントを管理するメソッド
         /// </summary>
-        void DisableComponents()
+        private void DisableComponents()
         {
             // コライダーとNavMeshAgentを無効化して、エネミーが物理的に存在しないようにする
             if (_collider != null)

@@ -37,7 +37,7 @@
         /// <summary>
         /// インスタンス直後に呼び出される初期化メソッド
         /// </summary>
-        void Awake()
+        private void Awake()
         {
             // ReactivePropertyの初期化
             CurrentHP = new ReactiveProperty<int>(_maxHP);
