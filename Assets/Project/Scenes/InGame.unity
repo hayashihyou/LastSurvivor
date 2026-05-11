@@ -300,7 +300,7 @@ MonoBehaviour:
   _groundCheck: {fileID: 199342480}
   _groundMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
 --- !u!114 &153171756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -315,7 +315,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LastSurvivor.EnemyDead
   _destroyTime: 3
   _enemyStatus: {fileID: 153171754}
-  _collider: {fileID: 0}
+  _collider: {fileID: 153171763}
   _navMeshAgent: {fileID: 153171760}
 --- !u!114 &153171757
 MonoBehaviour:
@@ -343,6 +343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LastSurvivor.EnemyAnimator
   _animator: {fileID: 153171761}
+  _enemyAI: {fileID: 153171759}
   _enemyStatus: {fileID: 153171754}
   _enemyMover: {fileID: 153171755}
   _enemyAttacker: {fileID: 153171757}
@@ -362,6 +363,7 @@ MonoBehaviour:
   _enemyMover: {fileID: 153171755}
   _enemyAttacker: {fileID: 153171757}
   _playerTransform: {fileID: 6766536238558749962}
+  _screamDuration: 2
 --- !u!195 &153171760
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -408,10 +410,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 1
+  m_Radius: 0.3
+  m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &199342479
 GameObject:
   m_ObjectHideFlags: 0
@@ -5499,7 +5501,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 1, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -7487,13 +7489,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Zombie
       objectReference: {fileID: 0}
+    - target: {fileID: 3547707238052702253, guid: 6f8e61bcfda026941b9194b1e2dcb048, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 4210914318428336791, guid: 6f8e61bcfda026941b9194b1e2dcb048, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4210914318428336791, guid: 6f8e61bcfda026941b9194b1e2dcb048, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4210914318428336791, guid: 6f8e61bcfda026941b9194b1e2dcb048, type: 3}
       propertyPath: m_LocalPosition.z

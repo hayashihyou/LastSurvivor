@@ -24,6 +24,14 @@
         private float _cooldownTimer = 0f;
 
         /// <summary>
+        /// オブジェクトが生成されたときに呼び出される初期化メソッド
+        /// </summary>
+        private void Awake()
+        {
+            IsAttacking = new ReactiveProperty<bool>(false);
+        }
+
+        /// <summary>
         /// ゲーム開始時に呼び出される初期化メソッド
         /// </summary>
         private void Start()
@@ -47,21 +55,11 @@
             // 敵が死亡している場合は攻撃を行わない
             if (_enemyStatus.IsDead.Value)
             {
+                Debug.Log("Dead, skipping");
                 return;
             }
 
             TickCooldownTask();
-        }
-
-        /// <summary>
-        /// 攻撃のクールタイムを管理するメソッド
-        /// </summary>
-        private void TickCooldownTask()
-        {
-            if(_cooldownTimer > 0f)
-            {
-                _cooldownTimer -= Time.deltaTime;
-            }
         }
         
         /// <summary>
@@ -69,9 +67,6 @@
         /// </summary>
         public void TryAttack()
         {
-            // ReactivePropertyの初期化
-            IsAttacking = new ReactiveProperty<bool>(false);
-
             // 攻撃できない条件をチェック
             var cannotAttack = _enemyStatus.IsDead.Value || _playerStatus == null || _playerStatus.IsDead.Value || _cooldownTimer > 0f;
 
@@ -105,19 +100,40 @@
         }
 
         /// <summary>
+        /// 攻撃のクールタイムを管理するメソッド
+        /// </summary>
+        private void TickCooldownTask()
+        {
+            if (_cooldownTimer > 0f)
+            {
+                _cooldownTimer -= Time.deltaTime;
+            }
+
+            // クールタイムが終わったら IsAttacking を false に戻す
+            if (_cooldownTimer <= 0f)
+            {
+                Debug.Log("timer reached 0, setting IsAttacking false");
+                IsAttacking.Value = false;
+            }
+        }
+
+        /// <summary>
         /// 攻撃を実行するメソッド
         /// </summary>
         private void ExecuteAttack()
         {
-            IsAttacking.Value = true;
             _playerStatus.TakeDamageTask(_enemyStatus.AttackPower);
             _cooldownTimer = _attackCooldown;
-
-            Observable
-                .Timer(System.TimeSpan.FromSeconds(_attackCooldown))
-                .Subscribe(_ => IsAttacking.Value = false)
-                .AddTo(this);
+            IsAttacking.Value = true;
         }
 
+        /// <summary>
+        /// 攻撃状態をリセットするメソッド
+        /// </summary>
+        public void ResetAttack()
+        {
+            IsAttacking.Value = false;
+            _cooldownTimer = 0f;
+        }
     }
 }

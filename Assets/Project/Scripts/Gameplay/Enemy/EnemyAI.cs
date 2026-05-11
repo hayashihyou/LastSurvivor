@@ -14,6 +14,8 @@
         public enum EnemyState
         {
             Idle,
+            Walk,
+            Scream,
             Chase,
             Attack,
             Dead
@@ -35,6 +37,12 @@
         [Header("プレイヤーのTransform"),SerializeField]
         private Transform _playerTransform;
 
+        [Header("Screamアニメーションの長さ"),SerializeField]
+        private float _screamDuration = 2f;
+        private float _screamTimer;
+
+        private bool _hasScreamed = false;
+
         // 敵の現在の状態を管理するReactiveProperty
         public ReactiveProperty<EnemyState> CurrentState { get; private set; } = new ReactiveProperty<EnemyState>(EnemyState.Idle); 
 
@@ -43,6 +51,7 @@
         /// </summary>
         private void Start()
         {
+            // プレイヤーのTransformをタグを使って取得
             var playerObject = GameObject.FindGameObjectWithTag(TagConsts.Player);
             if (playerObject != null)
             {
@@ -68,6 +77,14 @@
                     UpdateIdle();
                     break;
 
+                case EnemyState.Walk:
+                    UpdateWalk();
+                    break;
+
+                case EnemyState.Scream:
+                    UpdateScream();
+                    break;
+
                 case EnemyState.Chase:
                     UpdateChase();
                     break;
@@ -86,13 +103,45 @@
         /// </summary>
         private void UpdateIdle()
         {
-            if(_playerTransform == null)
+            if (_hasScreamed)
             {
+                TransitionTo(EnemyState.Walk);
                 return;
             }
 
+            if (IsPlayerInRange(_enemyStatus.DetectionRange))
+            {
+                TransitionTo(_hasScreamed ? EnemyState.Chase : EnemyState.Scream);
+            }
+        }
+
+        /// <summary>
+        /// Walk状態の更新処理
+        /// </summary>
+        private void UpdateWalk()
+        {
             if(IsPlayerInRange(_enemyStatus.DetectionRange))
             {
+                TransitionTo(EnemyState.Chase);
+                return; 
+            }
+
+            if (_enemyMover.HasReachedDestination())
+            {
+                TransitionTo(EnemyState.Idle);
+            }
+        }
+
+        /// <summary>
+        /// Scream状態の更新処理
+        /// </summary>
+        private void UpdateScream()
+        {
+            _screamTimer -= Time.deltaTime;
+
+            if (_screamTimer <= 0f)
+            {
+                _hasScreamed = true;
                 TransitionTo(EnemyState.Chase);
             }
         }
@@ -115,7 +164,7 @@
 
             if(!IsPlayerInRange(_enemyStatus.DetectionRange))
             {
-                TransitionTo(EnemyState.Idle);
+                TransitionTo(EnemyState.Walk);
             }
         }
 
@@ -124,12 +173,12 @@
         /// </summary>
         private void UpdateAttack()
         {
-            if(_playerTransform == null)
+            if (_playerTransform == null)
             {
                 return;
             }
 
-            if(!IsPlayerInRange(_enemyStatus.AttackRange))
+            if (!IsPlayerInRange(_enemyStatus.AttackRange))
             {
                 TransitionTo(EnemyState.Chase);
                 return;
@@ -164,18 +213,33 @@
             {
                 case EnemyState.Idle:
                     _enemyMover.SetChasing(false);
+                    _enemyMover.SetWalking(false);
+                    break;
+
+                case EnemyState.Walk:
+                    _enemyMover.SetChasing(false);
+                    _enemyMover.SetWalking(true);
+                    break;
+
+                case EnemyState.Scream:
+                    _enemyMover.SetChasing(false);
+                    _screamTimer = _screamDuration;
                     break;
 
                 case EnemyState.Chase:
+                    _enemyMover.SetWalking(false);
                     _enemyMover.SetChasing(true);
+                    _enemyAttacker.ResetAttack();
                     break;
 
                 case EnemyState.Attack:
                     _enemyMover.SetChasing(false);
+                    _enemyMover.SetWalking(false);
                     break;
 
                 case EnemyState.Dead:
                     _enemyMover.SetChasing(false);
+                    _enemyMover.SetWalking(false);
                     break;
             }
         }

@@ -23,9 +23,10 @@
         [Header("索敵範囲"), SerializeField]
         private float _detectionRange = 8f;
 
-        // ReactivePropertyを使用して、HPと死亡状態を管理
+        // ReactivePropertyを使用して、HPと死亡状態とダメージ通知を管理
         public ReactiveProperty<int> CurrentHP { get; private set; }
         public ReactiveProperty<bool> IsDead { get; private set; }
+        public Subject<int> OnDamaged { get; private set; }
 
         // 公開プロパティ
         public int MaxHP => _maxHP;
@@ -39,17 +40,18 @@
         /// </summary>
         private void Awake()
         {
-            // ReactivePropertyの初期化
+            // ReactivePropertyとSubjectの初期化
             CurrentHP = new ReactiveProperty<int>(_maxHP);
-            IsDead=new ReactiveProperty<bool>(false);
+            IsDead = new ReactiveProperty<bool>(false);
+            OnDamaged = new Subject<int>();
 
             // HPが0以下になったときの処理を購読
             CurrentHP
                 .Where(hp => hp <= 0)
-                .Subscribe(_ => 
-                { 
-                    CurrentHP.Value = 0; 
-                    IsDead.Value = true; 
+                .Subscribe(_ =>
+                {
+                    CurrentHP.Value = 0;
+                    IsDead.Value = true;
                 })
                 .AddTo(this);
         }
@@ -64,16 +66,13 @@
             {
                 return;
             }
-            CurrentHP.Value -= damage;
-        }
 
-        public void Heal(int amount)
-        {
-            if(IsDead.Value)
+            CurrentHP.Value -= damage;
+
+            if(!IsDead.Value)
             {
-                return;
+                OnDamaged.OnNext(damage);
             }
-            CurrentHP.Value = Mathf.Min(CurrentHP.Value + amount, _maxHP);
         }
     }
 }
