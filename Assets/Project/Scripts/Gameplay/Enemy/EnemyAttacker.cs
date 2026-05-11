@@ -55,7 +55,6 @@
             // 敵が死亡している場合は攻撃を行わない
             if (_enemyStatus.IsDead.Value)
             {
-                Debug.Log("Dead, skipping");
                 return;
             }
 
@@ -112,7 +111,6 @@
             // クールタイムが終わったら IsAttacking を false に戻す
             if (_cooldownTimer <= 0f)
             {
-                Debug.Log("timer reached 0, setting IsAttacking false");
                 IsAttacking.Value = false;
             }
         }

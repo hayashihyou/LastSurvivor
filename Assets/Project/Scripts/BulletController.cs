@@ -10,6 +10,9 @@
         [Header("設定"),SerializeField]
         public GameObject BulletPrefab;
 
+        [Header("カメラ"),SerializeField]
+        private Camera _camera;
+
         [Header("CloneのBulletを格納する親オブジェクト"),SerializeField]
         private GameObject _bullets;
 
@@ -33,20 +36,32 @@
             // マズルフラッシュエフェクトを再生
             _muzzleFlash.Play(); 
 
-            // 弾のプレハブをインスタンス化して発射位置と回転を設定
-            var bullet = Instantiate(BulletPrefab, _firePoint.position, _firePoint.rotation, _bullets.transform);
+            Ray ray = _camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
 
-            // 弾のRigidbodyコンポーネントを取得して、前方に速度を与える
-            var rb = bullet.GetComponent<Rigidbody>();
-
-            if(rb != null)
+            // 着弾点を決定（何も当たらなければ遠方の点）
+            Vector3 targetPoint;
+            if (Physics.Raycast(ray, out RaycastHit hit, 1000f))
             {
-                // 弾を前方に発射
-                rb.linearVelocity = _firePoint.forward * _bulletSpeed;
+                targetPoint = hit.point;
+            }
+            else
+            {
+                targetPoint = ray.GetPoint(1000f);
             }
 
-            // 5秒後に弾を破壊してメモリを解放
-            Destroy(bullet, _bulletLifetime); 
+            // 銃口から着弾点への方向を計算
+            Vector3 direction = (targetPoint - _firePoint.position).normalized;
+
+            // 弾を発射
+            var bullet = Instantiate(BulletPrefab, _firePoint.position, Quaternion.LookRotation(direction), _bullets.transform);
+
+            var rb = bullet.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.linearVelocity = direction * _bulletSpeed;
+            }
+
+            Destroy(bullet, _bulletLifetime);
         }
     }
 }
