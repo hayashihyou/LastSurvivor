@@ -6,5 +6,6 @@
     public static class TagConsts
     {
         public const string Player = "Player";
+        public const string Enemy = "Enemy";
     }
 }

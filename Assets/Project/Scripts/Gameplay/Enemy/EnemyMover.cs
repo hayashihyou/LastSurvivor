@@ -35,7 +35,7 @@
         private bool _isGrounded;
 
         // 敵が移動中かどうかを管理するReactiveProperty
-        public ReactiveProperty<bool> IsMoving { get; private set; }
+        public ReactiveProperty<bool> IsWalking { get; private set; }
         public ReactiveProperty<bool> IsChasing { get; private set; }
 
         /// <summary>
@@ -44,7 +44,7 @@
         private void Awake()
         {
             // ReactivePropertyの初期化
-            IsMoving = new ReactiveProperty<bool>(false);
+            IsWalking = new ReactiveProperty<bool>(false);
             IsChasing = new ReactiveProperty<bool>(false);
         }
 
@@ -62,7 +62,7 @@
 
             // プレイヤーオブジェクトをタグで検索し、そのTransformへの参照を取得
             var playerObj = GameObject.FindGameObjectWithTag("Player");
-            if(playerObj != null)
+            if (playerObj != null)
             {
                 _playerTransform = playerObj.transform;
             }
@@ -71,12 +71,16 @@
         /// <summary>
         /// 毎フレーム呼び出される更新メソッド
         /// </summary>
-         private void Update()
+        private void Update()
         {
             // 敵が死亡している場合は移動を停止
             if (_enemyStatus.IsDead.Value)
             {
-                _navMeshAgent.isStopped = true;
+                if (_navMeshAgent.isActiveAndEnabled)
+                {
+                    _navMeshAgent.isStopped = true;
+                }
+
                 return;
             }
 
@@ -92,15 +96,15 @@
         {
             // 地面に接地しているかどうかをチェックするために、Physics.CheckSphereを使用
             _isGrounded = Physics.CheckSphere(
-                _groundCheck.position, 
-                _groundDistance, 
+                _groundCheck.position,
+                _groundDistance,
                 _groundMask
             );
 
             // 地面に接地している場合、垂直速度をリセットして安定させる
             if (_isGrounded && _velocity.y < 0)
             {
-                _velocity.y = -2f; 
+                _velocity.y = -2f;
             }
         }
 
@@ -114,24 +118,29 @@
         }
 
         /// <summary>
+        /// 敵が移動中かどうかのフラグを設定するメソッド
+        /// </summary>
+        /// <param name="isWalking">敵が移動中かどうかのフラグ</param>
+        public void SetWalking(bool isWalking)
+        {
+            IsWalking.Value = isWalking;
+        }
+
+        /// <summary>
         /// プレイヤーに向かって移動するタスク
         /// </summary>
         private void HandleMovementTask()
         {
             // プレイヤーのTransformが取得できていない場合や、索敵範囲外の場合は移動を停止
-            if (_playerTransform == null || !IsChasing.Value)
+            if (_playerTransform == null || (!IsChasing.Value && !IsWalking.Value))
             {
                 _navMeshAgent.isStopped = true;
-                IsMoving.Value = false;
+                IsWalking.Value = false;
                 return;
             }
 
             _navMeshAgent.isStopped = false;
             _navMeshAgent.SetDestination(_playerTransform.position);
-
-            // プレイヤーとの距離を計算し、攻撃範囲内にいるかどうかを判断して移動状態を更新
-            float distanceToPlayer = Vector3.Distance(transform.position, _playerTransform.position);
-            IsMoving.Value = distanceToPlayer > _enemyStatus.AttackRange;
 
             HandleRotationTask();
         }
@@ -154,25 +163,49 @@
             // プレイヤーの方向に向かって回転するためのQuaternionを計算し、スムーズに回転させる
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Slerp(
-                transform.rotation, 
-                targetRotation, 
+                transform.rotation,
+                targetRotation,
                 Time.deltaTime * _navMeshAgent.angularSpeed / 100f
             );
         }
 
+        /// <summary>
+        /// 重力を適用するタスク
+        /// </summary>
         private void ApplyGravity()
         {
-            if(_isGrounded && _velocity.y < 0)
+            if (_isGrounded && _velocity.y < 0)
             {
                 _velocity.y = -2f;
             }
 
             _velocity.y += _gravity * Time.deltaTime;
 
-            if(!_navMeshAgent.isActiveAndEnabled)
+            if (!_navMeshAgent.isActiveAndEnabled)
             {
                 transform.position += _velocity * Time.deltaTime;
             }
+        }
+
+        /// <summary>
+        /// 敵が目的地に到達したかどうかを判断するメソッド
+        /// </summary>
+        public bool HasReachedDestination()
+        {
+            // NavMeshAgentが有効でない場合は到達済みとして扱う
+            if (!_navMeshAgent.isActiveAndEnabled)
+            {
+                return true;
+            }
+
+            // パスの計算中は未到達
+            if (_navMeshAgent.pathPending)
+            {
+                return false;
+            }
+
+            // 残り距離が停止距離以下になったら到達
+            return _navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance;
         }
     }
 }
