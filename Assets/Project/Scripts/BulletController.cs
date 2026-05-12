@@ -28,6 +28,9 @@
         [Header("弾の寿命"),SerializeField]
         private float _bulletLifetime = 5f;
 
+        // 弾のレイキャストの最大距離
+        private const float BulletRaycastRange = 1000f;
+
         /// <summary>
         /// 弾を発射する
         /// </summary>
@@ -38,15 +41,15 @@
 
             Ray ray = _camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
 
-            // 着弾点を決定（何も当たらなければ遠方の点）
+            // 着弾点を決定（何も当たらなければ遠方の点
             Vector3 targetPoint;
-            if (Physics.Raycast(ray, out RaycastHit hit, 1000f))
+            if (Physics.Raycast(ray, out RaycastHit hit, BulletRaycastRange))
             {
                 targetPoint = hit.point;
             }
             else
             {
-                targetPoint = ray.GetPoint(1000f);
+                targetPoint = ray.GetPoint(BulletRaycastRange);
             }
 
             // 銃口から着弾点への方向を計算
