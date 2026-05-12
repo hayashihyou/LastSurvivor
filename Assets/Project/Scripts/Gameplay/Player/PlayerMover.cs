@@ -18,10 +18,19 @@
         private float _mouseSensitivity = 2f;
 
         [Header("視点上限"), SerializeField]
-        private float _maxViewAngle = 80f;
+        private float _maxViewAngle = 60f;
 
         [Header("視点下限"), SerializeField]
-        private float _minViewAngle = -80f;
+        private float _minViewAngle = -60f;
+
+        [Header("腕、銃の上限"), SerializeField]
+        private float _maxWeaponAngle = 60f;
+
+        [Header("腕、銃の下限"), SerializeField]
+        private float _minWeaponAngle = -60f;
+
+        [Header("腕、銃のTransform"), SerializeField]
+        private Transform _weaponTransform;
 
         [Header("重力"), SerializeField]
         private float _gravity = -9.81f;
@@ -115,9 +124,14 @@
             _cameraPitch -= mouseY;
             _cameraPitch = Mathf.Clamp(_cameraPitch, _minViewAngle, _maxViewAngle);
             _cameraTransform.localRotation = Quaternion.Euler(_cameraPitch, 0f, 0f);
+            transform.localRotation = Quaternion.Euler(_cameraPitch, transform.localRotation.eulerAngles.y, 0f);
 
             // FPSカメラの回転をプレイヤーの回転に合わせる  
             _fpsCamera.rotation = _cameraTransform.rotation;
+
+            // 腕、銃の回転をカメラのピッチに合わせる
+            float weaponPitch = Mathf.Clamp(_cameraPitch, _minWeaponAngle, _maxWeaponAngle);
+            _weaponTransform.localRotation = Quaternion.Euler(weaponPitch, 0f, 0f);
         }
 
         /// <summary>
