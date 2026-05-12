@@ -1,7 +1,6 @@
 ﻿namespace LastSurvivor
 {
     using R3;
-    using UnityEngine;
 
     /// <summary>
     /// プレイヤーのHPを管理するモデルクラス
@@ -15,6 +14,12 @@
 
         // 最大HP
         public int MaxHP => _playerStatus.MaxHP;
+
+        // HPが0以下になったときに発火するイベント
+        public Observable<Unit> OnDead => CurrentHP
+            .Where(hp => hp <= 0)
+            .Take(1)
+            .Select(_ => Unit.Default);
 
         /// <summary>
         /// コンストラクタ
