@@ -1,7 +1,6 @@
 ﻿namespace LastSurvivor
 {
     using UnityEngine;
-    using System;
 
     /// <summary>
     /// プレイヤーのHPを表示するビュークラス
@@ -10,9 +9,6 @@
     {
         [Header("プレイヤーのHPバー"), SerializeField]
         private HPBar _hpBar;
-
-        // 入力をPresenterに伝えるためのイベント
-        public event Action OnDamageInput;
 
         /// <summary>
         /// HPバーを更新するためのメソッド
@@ -23,19 +19,6 @@
         {
             // HPバーを更新する
             _hpBar.SetUPTask((float)current, (float)max);
-        }
-
-        /// <summary>
-        /// 更新処理
-        /// </summary>
-        private void Update()
-        {
-            // NOTE: hayashi Fキーを押したときにダメージ入力があったとみなしているが、敵を実装したら敵の攻撃に対してダメージ入力があったとみなすようにする
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                // ダメージ入力があったときにイベントを発火する
-                OnDamageInput?.Invoke();
-            }
         }
     }
 }

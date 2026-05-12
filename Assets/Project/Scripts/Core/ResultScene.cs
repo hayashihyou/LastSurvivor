@@ -21,11 +21,18 @@
         [Header("スコアテキスト"), SerializeField]
         private TextMeshProUGUI _scoreText;
 
+        [Header("リザルトテキスト"), SerializeField]
+        private TextMeshProUGUI _resultText;
+
         /// <summary>
         /// インスタンス化直後に呼び出される初期化処理
         /// </summary>
         private void Start()
         {
+            // GameManagerから結果を受け取る
+            bool survived = GameManager.PlayerSurvived;
+            _resultText.text = survived ? "CLEAR" : "GAME OVER";
+
             // スコアの取得と表示
             var score = PlayerPrefs.GetInt("Score", 0);
             _scoreText.text = $"Score: {score}";
