@@ -34,7 +34,7 @@
         /// </summary>
         /// <param name="current">現在のHP</param>
         /// <param name="max">最大HP</param>
-        public void SetUPTask(float current, float max)
+        public void SetUP(float current, float max)
         {
             float ratio = current / max;
             _hpSlider.value = ratio;

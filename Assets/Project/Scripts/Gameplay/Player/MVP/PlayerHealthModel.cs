@@ -36,7 +36,12 @@
         /// <param name="damage">受けるダメージ量</param>
         public void TakeDamage(int damage)
         {
-            _playerStatus.TakeDamageTask(damage);
+            _playerStatus.TakeDamage(damage);
+        }
+
+        public void Heal(int healAmount)
+        {
+            _playerStatus.Heal(healAmount);
         }
     }
 }

@@ -58,7 +58,7 @@
                 return;
             }
 
-            TickCooldownTask();
+            TickCooldown();
         }
         
         /// <summary>
@@ -101,7 +101,7 @@
         /// <summary>
         /// 攻撃のクールタイムを管理するメソッド
         /// </summary>
-        private void TickCooldownTask()
+        private void TickCooldown()
         {
             if (_cooldownTimer > 0f)
             {
@@ -120,7 +120,7 @@
         /// </summary>
         private void ExecuteAttack()
         {
-            _playerStatus.TakeDamageTask(_enemyStatus.AttackPower);
+            _playerStatus.TakeDamage(_enemyStatus.AttackPower);
             _cooldownTimer = _attackCooldown;
             IsAttacking.Value = true;
         }

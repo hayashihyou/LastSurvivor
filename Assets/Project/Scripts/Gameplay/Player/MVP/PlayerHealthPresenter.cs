@@ -8,14 +8,14 @@
     /// </summary>
     public class PlayerHealthPresenter : MonoBehaviour
     {
-        [Header("プレイヤーのHPモデル"),SerializeField]
-        private PlayerHealthModel _model;
-
         [Header("プレイヤーのHPビュー"),SerializeField]
         private PlayerHealthView _view;
 
         [Header("プレイヤーのステータス"),SerializeField]
         private PlayerStatus _playerStatus;
+
+        // プレイヤーのHPを管理するモデル
+        private PlayerHealthModel _model;
 
         /// <summary>
         /// プレイヤーのHPが変化したときにビューを更新するための初期化処理
@@ -32,6 +32,11 @@
             _model.OnDead
                 .Subscribe(_ => GameManager.Instance?.OnPlayerDead())
                 .AddTo(this);
+        }
+
+        public void Heal(int healAmount)
+        {
+            _model.Heal(healAmount);
         }
     }
 }

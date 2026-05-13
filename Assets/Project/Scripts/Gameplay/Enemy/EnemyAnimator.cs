@@ -61,7 +61,7 @@
 
             _enemyStatus.OnDamaged
                 .Where(_ => !_enemyStatus.IsDead.Value)
-                .Subscribe(_ => SetIsHitAsync().Forget())
+                .Subscribe(_ => SetIsHitTask().Forget())
                 .AddTo(this);
 
             _enemyAttacker.IsAttacking
@@ -78,7 +78,7 @@
         /// <summary>
         /// 敵がダメージを受けたときにIsHitパラメータを一時的にtrueにする非同期処理
         /// </summary>
-        private async UniTaskVoid SetIsHitAsync()
+        private async UniTaskVoid SetIsHitTask()
         {
             _animator.SetBool(IsHitHash, true);
             await UniTask.Delay(500);
