@@ -9,16 +9,16 @@
     /// </summary>
     public class WeaponInventory : MonoBehaviour
     {
-        [Header("Weapon Data"),SerializeField]
+        [Header("Weapon Data"), SerializeField]
         private WeaponData[] _weaponData;
 
-        [Header("UI Slots"),SerializeField]
+        [Header("UI Slots"), SerializeField]
         private WeaponSlotUI[] _weaponSlotUI;
 
         /// <summary>
         /// 現在選択されている武器がフルオートかどうかを返す
         /// </summary>
-        public bool IsCurrentWeaponFillAuto => 
+        public bool IsCurrentWeaponFillAuto =>
             _weaponData != null &&
             _selectedIndex < _weaponData.Length &&
             _weaponData[_selectedIndex] != null &&
@@ -27,7 +27,7 @@
         /// <summary>
         /// 現在選択されている武器に弾薬が残っているかどうかを返す
         /// </summary>
-        public bool HasAmmo => 
+        public bool HasAmmo =>
             !_isReloading &&
             _weaponData != null &&
             _selectedIndex < _weaponData.Length &&
@@ -42,23 +42,26 @@
 
         private CancellationTokenSource _reloadCts;
 
+        private int[] _runtimeMaxReserveAmmo;
+
         /// <summary>
         /// ゲーム開始時に武器スロットのUIをセットアップし、最初の武器を選択する
         /// </summary>
         private void Start()
         {
+            // 実行時上限を WeaponData の初期値で初期化
+            _runtimeMaxReserveAmmo = new int[_weaponData.Length];
+
             for (var i = 0; i < _weaponSlotUI.Length; i++)
             {
                 if (i < _weaponData.Length && _weaponData[i] != null)
                 {
                     _weaponData[i].CurrentAmmo = _weaponData[i].MaxAmmo;
                     _weaponData[i].ReserveAmmo = _weaponData[i].MaxReserveAmmo;
+                    _runtimeMaxReserveAmmo[i] = _weaponData[i].MaxReserveAmmo;
                 }
                 _weaponSlotUI[i].Setup(i < _weaponData.Length ? _weaponData[i] : null);
             }
-
-            // 最初の武器を選択
-            SelectWeapon(0);
         }
 
         private void OnDestroy()
@@ -86,7 +89,7 @@
             ReloadAsync(w, _reloadCts.Token).Forget();
         }
 
-       private async UniTaskVoid ReloadAsync(WeaponData w, CancellationToken ct)
+        private async UniTaskVoid ReloadAsync(WeaponData w, CancellationToken ct)
         {
             _isReloading = true;
 
@@ -120,7 +123,7 @@
         /// </summary>
         private void Update()
         {
-            if(Input.GetKeyDown(KeyCode.R))
+            if (Input.GetKeyDown(KeyCode.R))
             {
                 StartReload();
             }
@@ -189,6 +192,34 @@
                 return;
             }
             _weaponSlotUI[weaponIndex].UpdateAmmo();
+        }
+
+        /// <summary>
+        /// 全ての武器の弾薬を充填し、UIを更新する
+        /// </summary>
+        /// <param name="amount"> 充填する弾薬の量 </param>
+        public void AddReserveAmmo(int amount)
+        {
+            for (var i = 0; i < _weaponData.Length; i++)
+            {
+                var w = _weaponData[i];
+                if (w == null)
+                {
+                    continue;
+                }
+
+                var newReserve = w.ReserveAmmo + amount;
+
+                // 弾薬アイテムを回収した時、実行時上限を超える場合は上限を引き上げる
+                if (newReserve > _runtimeMaxReserveAmmo[i])
+                {
+                    var overflow = newReserve - _runtimeMaxReserveAmmo[i];
+                    _runtimeMaxReserveAmmo[i] += overflow;
+                }
+
+                w.ReserveAmmo = newReserve;
+                RefreshAmmo(i);
+            }
         }
     }
 }

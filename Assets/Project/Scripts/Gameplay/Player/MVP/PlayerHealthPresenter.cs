@@ -33,5 +33,10 @@
                 .Subscribe(_ => GameManager.Instance?.OnPlayerDead())
                 .AddTo(this);
         }
+
+        public void Heal(int healAmount)
+        {
+            _model.Heal(healAmount);
+        }
     }
 }

@@ -1,0 +1,16 @@
+﻿namespace LastSurvivor
+{
+    using UnityEngine;
+
+    /// <summary>
+    /// アイテムはこのインターフェースを実装する必要がある。
+    /// </summary>
+    public interface Icollectable
+    {
+        /// <summary>
+        /// アイテムを収集する
+        /// </summary>
+        /// <param name="collector">収集したゲームオブジェクト</param>
+        bool CollectTask(GameObject collector);
+    }
+}

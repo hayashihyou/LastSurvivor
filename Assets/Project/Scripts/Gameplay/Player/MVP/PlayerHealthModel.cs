@@ -38,5 +38,10 @@
         {
             _playerStatus.TakeDamageTask(damage);
         }
+
+        public void Heal(int healAmount)
+        {
+            _playerStatus.HealTask(healAmount);
+        }
     }
 }
