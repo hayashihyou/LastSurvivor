@@ -53,7 +53,7 @@
         /// ダメージを受ける
         /// </summary>
         /// <param name="damage"> 受けるダメージ </param>
-        public void TakeDamageTask(int damage)
+        public void TakeDamage(int damage)
         {
             if (IsDead.Value)
             {
@@ -66,7 +66,7 @@
         /// HPを回復する
         /// </summary>
         /// <param name="amount"> 回復するHP量 </param>
-        public void HealTask(int amount)
+        public void Heal(int amount)
         {
             if (IsDead.Value)
             {

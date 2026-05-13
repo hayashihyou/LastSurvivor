@@ -86,10 +86,10 @@
             _reloadCts?.Dispose();
             _reloadCts = CancellationTokenSource.CreateLinkedTokenSource(this.GetCancellationTokenOnDestroy());
 
-            ReloadAsync(w, _reloadCts.Token).Forget();
+            ReloadTask(w, _reloadCts.Token).Forget();
         }
 
-        private async UniTaskVoid ReloadAsync(WeaponData w, CancellationToken ct)
+        private async UniTaskVoid ReloadTask(WeaponData w, CancellationToken ct)
         {
             _isReloading = true;
 

@@ -91,7 +91,7 @@
         /// アイテムを収集する処理
         /// </summary>
         /// <param name="collector">アイテムを収集するオブジェクト</param>
-        public bool CollectTask(GameObject collector)
+        public bool Collect(GameObject collector)
         {
             if (_isCollected)
             {
@@ -100,7 +100,7 @@
 
             _isCollected = true;
 
-            CollectAsync(collector, _cts.Token).Forget();
+            CollectTask(collector, _cts.Token).Forget();
             return true;
         }
 
@@ -109,7 +109,7 @@
         /// </summary>
         /// <param name="collector">アイテムを収集するオブジェクト</param>
         /// <param name="ct">キャンセルトークン</param>
-        private async UniTaskVoid CollectAsync(GameObject collector, CancellationToken ct)
+        private async UniTaskVoid CollectTask(GameObject collector, CancellationToken ct)
         {
             SetVisiblity(false);
 
@@ -158,7 +158,7 @@
             }
 
             // アイテムを収集する処理を実行
-            CollectTask(other.gameObject);
+            Collect(other.gameObject);
         }
 
         /// <summary>

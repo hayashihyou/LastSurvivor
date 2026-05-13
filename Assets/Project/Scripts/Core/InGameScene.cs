@@ -25,7 +25,7 @@
         private void Start()
         {
             _resultButton.onClick.AsObservable()
-                .Subscribe(_ => ResultTask())
+                .Subscribe(_ => Result())
                 .AddTo(this);
 
             IsResult
@@ -38,7 +38,7 @@
         /// スコアを加算する処理
         /// </summary>
         /// <param name="amount">加算するスコアの量</param>
-        public void AddScoreTask(int amount)
+        public void AddScore(int amount)
         {
             Score.Value += amount;
         }
@@ -46,7 +46,7 @@
         /// <summary>
         /// リザルト画面に遷移するフラグを立てる処理
         /// </summary>
-        private void ResultTask()
+        private void Result()
         {
             IsResult.Value = true;
         }
@@ -63,7 +63,7 @@
             PlayerPrefs.Save();
 
             // リザルト画面に遷移
-            await SceneLoader.Instance.LoadSceneAsyncTask(SceneNameConstants.Result);
+            await SceneLoader.Instance.LoadSceneTask(SceneNameConstants.Result);
         }
     }
 }

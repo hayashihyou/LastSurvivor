@@ -88,16 +88,16 @@
                 return;
             }
 
-            CheckGroundTask();
-            HandleRotationTask();
-            HandleMovementTask();
+            CheckGround();
+            HandleRotation();
+            HandleMovement();
             ApplyGravity();
         }
 
         /// <summary>
         /// 地面接触チェック
         /// </summary>
-        private void CheckGroundTask()
+        private void CheckGround()
         {
             _isGrounded = Physics.CheckSphere(
                  _groundCheck.position,
@@ -111,7 +111,7 @@
             }
         }
 
-        private void HandleRotationTask()
+        private void HandleRotation()
         {
             // マウス入力の取得
             float mouseX = Input.GetAxis("Mouse X") * _mouseSensitivity;
@@ -137,7 +137,7 @@
         /// <summary>
         /// プレイヤーの移動
         /// </summary>
-        private void HandleMovementTask()
+        private void HandleMovement()
         {
             // 入力の取得
             float horizontal = Input.GetAxisRaw("Horizontal");

@@ -18,7 +18,7 @@
         public void UpdateHP(int current, int max)
         {
             // HPバーを更新する
-            _hpBar.SetUPTask((float)current, (float)max);
+            _hpBar.SetUP((float)current, (float)max);
         }
     }
 }

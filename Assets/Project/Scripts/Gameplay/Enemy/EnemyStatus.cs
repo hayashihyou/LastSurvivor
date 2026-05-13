@@ -60,7 +60,7 @@
         /// ダメージを受ける処理
         /// </summary>
         /// <param name="damage">受けるダメージ量</param>
-        public void TakeDamageTask(int damage)
+        public void TakeDamage(int damage)
         {
             if (IsDead.Value)
             {

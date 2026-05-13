@@ -36,7 +36,7 @@
 
         public void Heal(int healAmount)
         {
-            _model.HealTask(healAmount);
+            _model.Heal(healAmount);
         }
     }
 }

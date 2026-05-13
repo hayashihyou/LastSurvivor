@@ -46,7 +46,7 @@
         /// <summary>
         /// アイテムを拾ったときのエフェクトを再生する。
         /// </summary>
-        public async UniTask PlayAsync(CancellationToken ct)
+        public async UniTask PlayTask(CancellationToken ct)
         {
             if (_delay > 0)
             {

@@ -58,7 +58,7 @@
         {
             // リトライボタンを非活性化
             _retryButton.interactable = false;
-            await SceneLoader.Instance.LoadSceneAsyncTask(SceneNameConstants.InGame);
+            await SceneLoader.Instance.LoadSceneTask(SceneNameConstants.InGame);
         }
 
         /// <summary>
@@ -70,7 +70,7 @@
             _titleButton.interactable = false;
 
             // タイトルシーンに遷移
-            await SceneLoader.Instance.LoadSceneAsyncTask(SceneNameConstants.Title);
+            await SceneLoader.Instance.LoadSceneTask(SceneNameConstants.Title);
         }
     }
 }

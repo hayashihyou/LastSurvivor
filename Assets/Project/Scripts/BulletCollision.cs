@@ -25,7 +25,7 @@
             // 衝突したオブジェクトが敵であれば、ダメージを与える
             if (other.TryGetComponent<EnemyStatus>(out var enemyStatus))
             {
-                enemyStatus.TakeDamageTask(_damage);
+                enemyStatus.TakeDamage(_damage);
             }
 
             Destroy(gameObject);

@@ -34,7 +34,7 @@
         /// シーンを非同期で遷移する処理
         /// </summary>
         /// <param name="sceneName"> 遷移先のシーン名 </param>
-        public async UniTask LoadSceneAsyncTask(string sceneName)
+        public async UniTask LoadSceneTask(string sceneName)
         {
             await FadeOutTask();
 

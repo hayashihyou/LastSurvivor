@@ -11,6 +11,6 @@
         /// アイテムを収集する
         /// </summary>
         /// <param name="collector">収集したゲームオブジェクト</param>
-        bool CollectTask(GameObject collector);
+        bool Collect(GameObject collector);
     }
 }
