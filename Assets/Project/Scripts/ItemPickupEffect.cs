@@ -28,17 +28,19 @@
         [Header("全演出終了後、呼び出し元に制御を返すまでの追加待機"), SerializeField]
         private int _postEffectDelay = 0;
 
-        private AudioSource _audioSource;
+        // NOTE:　hayashi　AudioSourceを実装したら以下のコメントアウトを解除して使用する。
+        //private AudioSource _audioSource;
 
         /// <summary>
         /// 初期化処理
         /// </summary>
         private void Awake()
         {
-            _audioSource = GetComponent<AudioSource>();
+            // NOTE:　hayashi　AudioSourceを実装したら以下のコメントアウトを解除して使用する。
+            //_audioSource = GetComponent<AudioSource>();
 
-            // PlayOnAwake を無効化（手動再生のみ）
-            _audioSource.playOnAwake = false;
+            //// PlayOnAwake を無効化（手動再生のみ）
+            //_audioSource.playOnAwake = false;
         }
 
         /// <summary>
@@ -95,8 +97,9 @@
         {
             if (_pickupSound == null) return 0f;
 
-            // PlayOneShot を使うことで連打されても重複再生に対応
-            _audioSource.PlayOneShot(_pickupSound, _volume);
+            // NOTE:　hayashi　AudioSourceを実装したら以下のコメントアウトを解除して使用する。
+            //// PlayOneShot を使うことで連打されても重複再生に対応
+            //_audioSource.PlayOneShot(_pickupSound, _volume);
             return _pickupSound.length;
         }
 
