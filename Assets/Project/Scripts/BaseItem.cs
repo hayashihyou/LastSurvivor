@@ -8,7 +8,7 @@
     /// <summary>
     /// アイテムの基本クラス
     /// </summary>
-    public abstract class BaseItem : MonoBehaviour, Icollectable
+    public abstract class BaseItem : MonoBehaviour, ICollectable
     {
         [Header("アイテム設定"), SerializeField]
         private string _itemName = "Item";

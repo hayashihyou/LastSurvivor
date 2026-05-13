@@ -5,7 +5,7 @@
     /// <summary>
     /// アイテムはこのインターフェースを実装する必要がある。
     /// </summary>
-    public interface Icollectable
+    public interface ICollectable
     {
         /// <summary>
         /// アイテムを収集する

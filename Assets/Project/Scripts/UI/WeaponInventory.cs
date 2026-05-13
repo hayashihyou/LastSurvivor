@@ -42,7 +42,7 @@
 
         private CancellationTokenSource _reloadCts;
 
-        private int[] _runtimeMaxReserveAmmo;
+        private int[] _runtimeMaxReserveAmmos;
 
         /// <summary>
         /// ゲーム開始時に武器スロットのUIをセットアップし、最初の武器を選択する
@@ -50,7 +50,7 @@
         private void Start()
         {
             // 実行時上限を WeaponData の初期値で初期化
-            _runtimeMaxReserveAmmo = new int[_weaponData.Length];
+            _runtimeMaxReserveAmmos = new int[_weaponData.Length];
 
             for (var i = 0; i < _weaponSlotUI.Length; i++)
             {
@@ -58,7 +58,7 @@
                 {
                     _weaponData[i].CurrentAmmo = _weaponData[i].MaxAmmo;
                     _weaponData[i].ReserveAmmo = _weaponData[i].MaxReserveAmmo;
-                    _runtimeMaxReserveAmmo[i] = _weaponData[i].MaxReserveAmmo;
+                    _runtimeMaxReserveAmmos[i] = _weaponData[i].MaxReserveAmmo;
                 }
                 _weaponSlotUI[i].Setup(i < _weaponData.Length ? _weaponData[i] : null);
             }
@@ -211,10 +211,10 @@
                 var newReserve = w.ReserveAmmo + amount;
 
                 // 弾薬アイテムを回収した時、実行時上限を超える場合は上限を引き上げる
-                if (newReserve > _runtimeMaxReserveAmmo[i])
+                if (newReserve > _runtimeMaxReserveAmmos[i])
                 {
-                    var overflow = newReserve - _runtimeMaxReserveAmmo[i];
-                    _runtimeMaxReserveAmmo[i] += overflow;
+                    var overflow = newReserve - _runtimeMaxReserveAmmos[i];
+                    _runtimeMaxReserveAmmos[i] += overflow;
                 }
 
                 w.ReserveAmmo = newReserve;

@@ -49,9 +49,14 @@
         public async UniTask PlayAsync(CancellationToken ct)
         {
             if (_delay > 0)
+            {
                 await UniTask.Delay(_delay, cancellationToken: ct);
+            }
 
-            if (ct.IsCancellationRequested) return;
+            if (ct.IsCancellationRequested)
+            {
+                return;
+            }
 
             ParticleSystem spawnedParticle = SpawnParticle();
 
@@ -61,15 +66,23 @@
             float waitSeconds = Mathf.Max(particleDuration, seDuration);
 
             if (waitSeconds > 0f)
+            {
                 await UniTask.Delay(
                     Mathf.RoundToInt(waitSeconds * 1000f),
                     cancellationToken: ct
                 );
+            }
 
-            if (ct.IsCancellationRequested) return;
+            if (ct.IsCancellationRequested)
+            {
+                return;
+            }
+
 
             if (_postEffectDelay > 0)
+            {
                 await UniTask.Delay(_postEffectDelay, cancellationToken: ct);
+            }
         }
 
         /// <summary>
@@ -77,7 +90,10 @@
         /// </summary>
         private ParticleSystem SpawnParticle()
         {
-            if (_pickupParticle == null) return null;
+            if (_pickupParticle == null)
+            {
+                return null;
+            }
 
             Vector3 spawnPos = transform.position + _particleOffset;
             ParticleSystem ps = Instantiate(_pickupParticle, spawnPos, Quaternion.identity);
@@ -95,7 +111,10 @@
         /// <returns>SEの長さ（秒）。未設定なら 0f</returns>
         private float PlaySE()
         {
-            if (_pickupSound == null) return 0f;
+            if (_pickupSound == null)
+            {
+                return 0f;
+            }
 
             // NOTE:　hayashi　AudioSourceを実装したら以下のコメントアウトを解除して使用する。
             //// PlayOneShot を使うことで連打されても重複再生に対応
@@ -108,12 +127,18 @@
         /// </summary>
         private float GetParticleDuration(ParticleSystem ps)
         {
-            if (ps == null) return 0f;
+            if (ps == null)
+            {
+                return 0f;
+            }
 
             var main = ps.main;
 
             // ループ設定の場合は duration のみを再生時間とする
-            if (main.loop) return main.duration;
+            if (main.loop)
+            {
+                return main.duration;
+            }
 
             return main.duration + main.startLifetime.constantMax;
         }
