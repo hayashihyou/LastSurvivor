@@ -41,11 +41,6 @@
         {
             _cts = new CancellationTokenSource();
             SpawnLoopTask(_cts.Token).Forget();
-
-            // デバッグ用：エネミー数の変化をログ出力
-            _enemyCount
-                .Subscribe(count => Debug.Log($"[SpawnManager] 現在のエネミー数: {count}"))
-                .AddTo(this);
         }
 
         /// <summary>
