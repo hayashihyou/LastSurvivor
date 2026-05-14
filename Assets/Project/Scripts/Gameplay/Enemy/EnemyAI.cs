@@ -52,12 +52,28 @@
         {
             switch (CurrentState.Value)
             {
-                case EnemyState.Idle: UpdateIdle(); break;
-                case EnemyState.Walk: UpdateWalk(); break;
-                case EnemyState.Scream: UpdateScream(); break;
-                case EnemyState.Chase: UpdateChase(); break;
-                case EnemyState.Attack: UpdateAttack(); break;
-                case EnemyState.Dead: break;
+                case EnemyState.Idle: 
+                    UpdateIdle(); 
+                    break;
+
+                case EnemyState.Walk: 
+                    UpdateWalk();
+                    break;
+
+                case EnemyState.Scream: 
+                    UpdateScream(); 
+                    break;
+
+                case EnemyState.Chase:
+                     UpdateChase();
+                     break;
+
+                case EnemyState.Attack: 
+                     UpdateAttack(); 
+                     break;
+
+                case EnemyState.Dead:
+                     break;
             }
         }
 
@@ -105,7 +121,10 @@
 
         private void UpdateChase()
         {
-            if (_playerTransform == null) return;
+            if (_playerTransform == null)
+            {
+                return;
+            }
 
             if (IsPlayerInRange(_enemyStatus.AttackRange))
             {
@@ -121,7 +140,10 @@
 
         private void UpdateAttack()
         {
-            if (_playerTransform == null) return;
+            if (_playerTransform == null)
+            {
+                return;
+            }
 
             if (!IsPlayerInRange(_enemyStatus.AttackRange))
             {
@@ -134,7 +156,10 @@
 
         private void TransitionTo(EnemyState nextState)
         {
-            if (CurrentState.Value == nextState) return;
+            if (CurrentState.Value == nextState)
+            {
+                return;
+            }
 
             OnExitState(CurrentState.Value);
             CurrentState.Value = nextState;
@@ -192,19 +217,29 @@
 
         private void LookAtPlayer()
         {
-            if (_playerTransform == null) return;
+            if (_playerTransform == null)
+            {
+                return;
+            }
 
             Vector3 direction = (_playerTransform.position - transform.position).normalized;
             direction = Vector3.ProjectOnPlane(direction, Vector3.up);
 
-            if (direction == Vector3.zero) return;
+            if (direction == Vector3.zero)
+            {
+                return;
+            }
 
             transform.rotation = Quaternion.LookRotation(direction);
         }
 
         private bool IsPlayerInRange(float range)
         {
-            if (_playerTransform == null) return false;
+            if (_playerTransform == null)
+            {
+                return false;
+            }
+
             return Vector3.Distance(transform.position, _playerTransform.position) <= range;
         }
     }

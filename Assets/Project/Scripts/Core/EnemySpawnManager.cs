@@ -51,8 +51,7 @@
         /// <summary>
         /// 一定間隔でエネミーをスポーンするループ
         /// </summary>
-        /// <param name="ct">キャンセルトークン</param>
-        /// <returns></returns>
+        /// <param name="ct">キャンセルトークン</param>d
         private async UniTaskVoid SpawnLoopTask(CancellationToken ct)
         {
             while (!ct.IsCancellationRequested)
