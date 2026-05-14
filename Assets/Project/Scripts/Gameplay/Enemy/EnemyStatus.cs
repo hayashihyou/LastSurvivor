@@ -12,7 +12,7 @@
         private int _maxHP = 50;
 
         [Header("移動速度"), SerializeField]
-        private float _moveSpeed = 2f;
+        private float _moveSpeed = 1f;
 
         [Header("攻撃力"), SerializeField]
         private int _attackPower = 5;

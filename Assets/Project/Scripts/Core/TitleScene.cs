@@ -41,7 +41,7 @@
             _startButton.interactable = false;
 
             // インゲームシーンに遷移
-            await SceneLoader.Instance.LoadSceneTask(SceneNameConstants.InGame);
+            await SceneLoader.Instance.LoadSceneTask(SceneNameConstants.InGame, this.GetCancellationTokenOnDestroy());
         }
     }
 }

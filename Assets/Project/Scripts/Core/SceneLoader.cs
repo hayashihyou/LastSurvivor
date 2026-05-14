@@ -1,6 +1,7 @@
 ﻿namespace LastSurvivor
 {
     using Cysharp.Threading.Tasks;
+    using System.Threading;
     using UnityEngine;
     using UnityEngine.SceneManagement;
 
@@ -34,31 +35,31 @@
         /// シーンを非同期で遷移する処理
         /// </summary>
         /// <param name="sceneName"> 遷移先のシーン名 </param>
-        public async UniTask LoadSceneTask(string sceneName)
+        public async UniTask LoadSceneTask(string sceneName, CancellationToken ct = default)
         {
-            await FadeOutTask();
+            await FadeOutTask(ct);
 
-            await SceneManager.LoadSceneAsync(sceneName);
+            await SceneManager.LoadSceneAsync(sceneName).WithCancellation(ct);
 
-            await FadeInTask();
+            await FadeInTask(ct);
         }
 
         /// <summary>
         /// フェードアウト処理
         /// </summary>
-        private async UniTask FadeOutTask()
+        private async UniTask FadeOutTask(CancellationToken ct)
         {
             // 0.5秒待機
-            await UniTask.Delay(500);
+            await UniTask.Delay(500, cancellationToken: ct);
         }
 
         /// <summary>
         /// フェードイン処理
         /// </summary>
-        private async UniTask FadeInTask()
+        private async UniTask FadeInTask(CancellationToken ct)
         {
             // 0.5秒待機
-            await UniTask.Delay(500);
+            await UniTask.Delay(500, cancellationToken: ct);
         }
     }
 }

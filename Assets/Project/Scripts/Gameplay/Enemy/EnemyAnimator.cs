@@ -81,7 +81,7 @@
         private async UniTaskVoid SetIsHitTask()
         {
             _animator.SetBool(IsHitHash, true);
-            await UniTask.Delay(500);
+            await UniTask.Delay(500, cancellationToken: this.GetCancellationTokenOnDestroy());
             _animator.SetBool(IsHitHash, false);
         }
     }

@@ -22,6 +22,15 @@
         [Header("地面マスク"), SerializeField]
         private LayerMask _groundMask;
 
+        [Header("索敵範囲"), SerializeField]
+        private float _detectionRange = 10f;
+
+        // 追跡速度
+        private float _chaseSpeed;
+
+        // 徘徊速度
+        private float _walkSpeed;
+
         // 敵のステータスを管理するクラスへの参照
         private EnemyStatus _enemyStatus;
 
@@ -37,6 +46,24 @@
         // 敵が移動中かどうかを管理するReactiveProperty
         public ReactiveProperty<bool> IsWalking { get; private set; }
         public ReactiveProperty<bool> IsChasing { get; private set; }
+
+        public void SetWalkSpeed()
+        {
+            _navMeshAgent.speed = _walkSpeed;
+        }
+
+        public void SetChaseSpeed()
+        {
+            _navMeshAgent.speed = _chaseSpeed;
+        }
+
+        public void StopMovement()
+        {
+            if (_navMeshAgent.isActiveAndEnabled)
+            {
+                _navMeshAgent.isStopped = true;
+            }
+        }
 
         /// <summary>
         /// インスタンス直後に呼び出される初期化メソッド
@@ -56,8 +83,11 @@
             // EnemyStatusコンポーネントへの参照を取得
             _enemyStatus = GetComponent<EnemyStatus>();
 
+            _walkSpeed = _enemyStatus.MoveSpeed * 0.5f;
+            _chaseSpeed = _enemyStatus.MoveSpeed;
+
             // ナビメッシュエージェントの速度と停止距離をEnemyStatusから設定
-            _navMeshAgent.speed = _enemyStatus.MoveSpeed;
+            _navMeshAgent.speed = _walkSpeed;
             _navMeshAgent.stoppingDistance = _enemyStatus.AttackRange;
 
             // プレイヤーオブジェクトをタグで検索し、そのTransformへの参照を取得
@@ -131,18 +161,25 @@
         /// </summary>
         private void HandleMovementTask()
         {
+            if (!_navMeshAgent.isActiveAndEnabled)
+            {
+                return;
+            }
+
             // プレイヤーのTransformが取得できていない場合や、索敵範囲外の場合は移動を停止
             if (_playerTransform == null || (!IsChasing.Value && !IsWalking.Value))
             {
                 _navMeshAgent.isStopped = true;
-                IsWalking.Value = false;
                 return;
             }
 
             _navMeshAgent.isStopped = false;
-            _navMeshAgent.SetDestination(_playerTransform.position);
 
-            HandleRotationTask();
+            if (IsChasing.Value)
+            {
+                _navMeshAgent.SetDestination(_playerTransform.position);
+                HandleRotationTask();
+            }
         }
 
         /// <summary>
@@ -206,6 +243,28 @@
 
             // 残り距離が停止距離以下になったら到達
             return _navMeshAgent.remainingDistance <= _navMeshAgent.stoppingDistance;
+        }
+
+        /// <summary>
+        /// ランダムな目的地を設定するメソッド
+        /// </summary>
+        public bool SetRandomDestination()
+        {
+            Vector3 randomDirection = Random.insideUnitSphere * _detectionRange;
+            randomDirection += transform.position;
+
+            if(NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, _detectionRange, NavMesh.AllAreas))
+            {
+                _navMeshAgent.SetDestination(hit.position);
+                return true;
+            }
+
+            return false;
+        }
+
+        public void SetRotationControl(bool enabled)
+        {
+            _navMeshAgent.updateRotation = enabled;
         }
     }
 }
