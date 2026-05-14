@@ -20,15 +20,19 @@
         [Header("攻撃力"), SerializeField]
         private int _attackPower = 10;
 
+        [Header("ジャンプ力"), SerializeField]
+        private float _jumpPower = 1.5f;
+
         // プレイヤーの現在のHPと死亡状態を管理するReactiveProperty
         public ReactiveProperty<int> CurrentHP { get; private set; }
         public ReactiveProperty<bool> IsDead { get; private set; }
 
-        // プレイヤーの最大HP、歩行速度、走行速度、攻撃力を公開プロパティ
+        // プレイヤーの最大HP、歩行速度、走行速度、攻撃力、ジャンプ力を公開プロパティ
         public int MaxHP => _maxHP;
         public float WalkSpeed => _walkSpeed;
         public float RunSpeed => _runSpeed;
         public int AttackPower => _attackPower;
+        public float JumpPower => _jumpPower;
 
         /// <summary>
         /// インスタンス化直後に呼び出される初期化処理

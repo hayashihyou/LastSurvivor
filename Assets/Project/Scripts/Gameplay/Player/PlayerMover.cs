@@ -54,16 +54,35 @@
         // 地面接触判定
         private bool _isGrounded;
 
+        // ジャンプ回数のカウント
+        private int _jumpCount = 0;
+
+        // ジャンプの最大回数
+        private const int MaxJumpCount = 1; 
+
+        private const int _jumpCountReset = 0;
+
         // カメラのピッチ角度
         private float _cameraPitch = 0f;
 
-        // プレイヤーの走行状態と移動状態
+        // プレイヤーの走行状態と移動状態とジャンプ状態と地面接触状態を管理するReactiveProperty
         public ReactiveProperty<bool> IsRunning { get; private set; } 
         public ReactiveProperty<bool> IsMoving { get; private set; }
+        public ReactiveProperty<bool> IsJumping { get; private set; }
+        public ReactiveProperty<bool> IsGrounded { get; private set; }
+
+
+        /// <summary>
+        /// インスタンス化直後に呼び出される初期化処理
+        /// </summary>
         private void Awake()
         {
+            _playerStatus = GetComponent<PlayerStatus>();
+
             IsRunning = new ReactiveProperty<bool>(false);
             IsMoving = new ReactiveProperty<bool>(false);
+            IsJumping = new ReactiveProperty<bool>(false);
+            IsGrounded = new ReactiveProperty<bool>(false);
 
             // マウスを固定して非表示にする
             Cursor.lockState = CursorLockMode.Locked;
@@ -75,7 +94,6 @@
         /// </summary>
         private void Start()
         {
-            _playerStatus = GetComponent<PlayerStatus>();
         }
 
         /// <summary>
@@ -99,11 +117,14 @@
         /// </summary>
         private void CheckGround()
         {
-            _isGrounded = Physics.CheckSphere(
+            bool grounded = Physics.CheckSphere(
                  _groundCheck.position,
                  _groundDistance,
                  _groundMask
              );
+
+            IsGrounded.Value = grounded;
+            _isGrounded = grounded;
 
             if (_isGrounded && _velocity.y < 0)
             {
@@ -145,6 +166,26 @@
 
             IsRunning.Value = Input.GetKey(KeyCode.LeftShift);
             IsMoving.Value = horizontal != 0 || vertical != 0;
+
+            // 着地したらカウントリセット
+            if (_characterController.isGrounded)
+            {
+                _jumpCount = _jumpCountReset;
+            }
+
+            if (Input.GetButtonDown("Jump")
+                && _jumpCount < MaxJumpCount
+                && !_playerStatus.IsDead.Value)
+            {
+                _velocity.y = Mathf.Sqrt(_playerStatus.JumpPower * -2f * _gravity);
+                IsJumping.Value = true;
+                _jumpCount++;
+            }
+
+            if (!_characterController.isGrounded)
+            {
+                IsJumping.Value = false;
+            }
 
             if (!IsMoving.Value)
             {

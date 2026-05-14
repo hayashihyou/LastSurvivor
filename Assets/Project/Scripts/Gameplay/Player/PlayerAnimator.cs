@@ -2,6 +2,7 @@
 {
     using UnityEngine;
     using R3;
+    using Cysharp.Threading.Tasks;
 
     /// <summary>
     /// プレイヤーのアニメーションを制御するクラス
@@ -27,6 +28,8 @@
         public static readonly int IsMoving = Animator.StringToHash("isMoving");
         public static readonly int IsFiring = Animator.StringToHash("isFiring");
         public static readonly int IsDead = Animator.StringToHash("isDead");
+        public static readonly int IsJumping = Animator.StringToHash("isJumping");
+        public static readonly int IsGrounded = Animator.StringToHash("isGrounded");
 
         /// <summary>
         /// インスタンス化直後に呼び出される初期化処理
@@ -63,6 +66,16 @@
             _playerMover.IsRunning
                 .Subscribe(isRunning =>
                     _animator.SetBool(IsRunning, isRunning))
+                .AddTo(this);
+
+            _playerMover.IsJumping
+                .Subscribe(isJumping =>
+                    _animator.SetBool(IsJumping, isJumping))
+                .AddTo(this);
+
+            _playerMover.IsGrounded
+                .Subscribe(isGrounded =>
+                    _animator.SetBool(IsGrounded, isGrounded))
                 .AddTo(this);
 
             // プレイヤーの射撃状態を購読し、アニメーターのisFiringパラメータを更新

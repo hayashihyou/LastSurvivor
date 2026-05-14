@@ -7977,12 +7977,12 @@ GameObject:
   - component: {fileID: 2104143041}
   - component: {fileID: 2104143048}
   - component: {fileID: 2104143047}
-  - component: {fileID: 2104143046}
   - component: {fileID: 2104143049}
   - component: {fileID: 2104143051}
   - component: {fileID: 2104143053}
   - component: {fileID: 2104143052}
   - component: {fileID: 2104143054}
+  - component: {fileID: 2104143055}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -8055,22 +8055,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &2104143046
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2104143039}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aafa288cdc574f44296a9f675eac6e1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LastSurvivor.PlayerAnimator
-  _animator: {fileID: 6766536238558749963}
-  _playerStatus: {fileID: 2104143047}
-  _playerMover: {fileID: 2104143048}
-  _playerShooter: {fileID: 2104143051}
 --- !u!114 &2104143047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8087,6 +8071,7 @@ MonoBehaviour:
   _walkSpeed: 3
   _runSpeed: 6
   _attackPower: 10
+  _jumpPower: 1.5
 --- !u!114 &2104143048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8108,7 +8093,7 @@ MonoBehaviour:
   _minWeaponAngle: -60
   _weaponTransform: {fileID: 6766536239699013072}
   _gravity: -9.81
-  _groundCheck: {fileID: 199342480}
+  _groundCheck: {fileID: 236833788}
   _groundMask:
     serializedVersion: 2
     m_Bits: 8
@@ -8194,6 +8179,22 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fc860267291f31b4d8490e1fddffda6e, type: 2}
   _weaponSlotUI:
   - {fileID: 1970152346}
+--- !u!114 &2104143055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2104143039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aafa288cdc574f44296a9f675eac6e1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LastSurvivor.PlayerAnimator
+  _animator: {fileID: 6766536238558749963}
+  _playerStatus: {fileID: 2104143047}
+  _playerMover: {fileID: 2104143048}
+  _playerShooter: {fileID: 2104143051}
 --- !u!1 &2114938143
 GameObject:
   m_ObjectHideFlags: 0
