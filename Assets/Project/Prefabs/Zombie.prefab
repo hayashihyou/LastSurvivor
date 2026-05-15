@@ -648,6 +648,7 @@ GameObject:
   - component: {fileID: 4140922555785152838}
   - component: {fileID: 1446633697276892439}
   - component: {fileID: 6568107234259962017}
+  - component: {fileID: 2221866037360473063}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Enemy
@@ -732,7 +733,6 @@ MonoBehaviour:
   _enemyStatus: {fileID: 1446633697276892439}
   _enemyMover: {fileID: 4140922555785152838}
   _enemyAttacker: {fileID: 2649698403140663845}
-  _playerTransform: {fileID: 0}
   _screamDuration: 2
 --- !u!114 &667501174492056229
 MonoBehaviour:
@@ -798,6 +798,8 @@ MonoBehaviour:
   _groundMask:
     serializedVersion: 2
     m_Bits: 8
+  _detectionRange: 10
+  _enemyStatus: {fileID: 1446633697276892439}
 --- !u!114 &1446633697276892439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -838,6 +840,23 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &2221866037360473063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1072028055473306373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 932229839703de849b5843b862b5e5bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LastSurvivor.EnemyDroper
+  _healItemPrefab: {fileID: 1445594403693743198, guid: d3cbe7ccae2e4d64da2e160d9a2e4f29, type: 3}
+  _ammoItemPrefab: {fileID: 7947474288316944225, guid: a86777b5c6b83924da5319a9378be159, type: 3}
+  _dropRate: 0.5
+  _dropOffset: {x: 0, y: 0.5, z: 0}
+  _enemyStatus: {fileID: 1446633697276892439}
 --- !u!1 &1077169052631930754
 GameObject:
   m_ObjectHideFlags: 0
