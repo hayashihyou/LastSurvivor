@@ -47,16 +47,25 @@
         public ReactiveProperty<bool> IsWalking { get; private set; }
         public ReactiveProperty<bool> IsChasing { get; private set; }
 
+        /// <summary>
+        /// 歩行速度を設定するメソッド
+        /// </summary>
         public void SetWalkSpeed()
         {
             _navMeshAgent.speed = _walkSpeed;
         }
 
+        /// <summary>
+        /// 追跡速度を設定するメソッド
+        /// </summary>
         public void SetChaseSpeed()
         {
             _navMeshAgent.speed = _chaseSpeed;
         }
 
+        /// <summary>
+        /// 移動を停止するメソッド
+        /// </summary>
         public void StopMovement()
         {
             if (_navMeshAgent.isActiveAndEnabled)

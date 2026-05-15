@@ -3,6 +3,9 @@
     using R3;
     using UnityEngine;
 
+    /// <summary>
+    /// 敵のAIを管理するクラス
+    /// </summary>
     public class EnemyAI : MonoBehaviour
     {
         public enum EnemyState
@@ -34,6 +37,9 @@
         public ReactiveProperty<EnemyState> CurrentState { get; private set; }
             = new ReactiveProperty<EnemyState>(EnemyState.Idle);
 
+        /// <summary>
+        /// 初期化処理
+        /// </summary>
         private void Start()
         {
             var playerObject = GameObject.FindGameObjectWithTag(TagConsts.Player);
@@ -48,6 +54,9 @@
                 .AddTo(this);
         }
 
+        /// <summary>
+        /// 状態に応じた更新処理
+        /// </summary>
         private void Update()
         {
             switch (CurrentState.Value)
@@ -77,6 +86,9 @@
             }
         }
 
+        /// <summary>
+        /// Idle状態の更新処理
+        /// </summary>
         private void UpdateIdle()
         {
             if (_hasScreamed)
@@ -94,6 +106,9 @@
             TransitionTo(EnemyState.Scream);
         }
 
+        /// <summary>
+        /// Walk状態の更新処理
+        /// </summary>
         private void UpdateWalk()
         {
             if (IsPlayerInRange(_enemyStatus.DetectionRange))
@@ -108,6 +123,9 @@
             }
         }
 
+        /// <summary>
+        /// Scream状態の更新処理
+        /// </summary>
         private void UpdateScream()
         {
             _screamTimer -= Time.deltaTime;
@@ -119,6 +137,9 @@
             }
         }
 
+        /// <summary>
+        /// Chase状態の更新処理
+        /// </summary>
         private void UpdateChase()
         {
             if (_playerTransform == null)
@@ -138,6 +159,9 @@
             }
         }
 
+        /// <summary>
+        /// Attack状態の更新処理
+        /// </summary>
         private void UpdateAttack()
         {
             if (_playerTransform == null)
@@ -154,6 +178,10 @@
             _enemyAttacker.TryAttack();
         }
 
+        /// <summary>
+        /// 状態遷移処理
+        /// </summary>
+        /// <param name="nextState">遷移先の状態</param>
         private void TransitionTo(EnemyState nextState)
         {
             if (CurrentState.Value == nextState)
@@ -166,6 +194,10 @@
             OnEnterState(nextState);
         }
 
+        /// <summary>
+        /// 状態に入ったときの処理
+        /// </summary>
+        /// <param name="state">現在の状態</param>
         private void OnEnterState(EnemyState state)
         {
             switch (state)
@@ -213,8 +245,15 @@
             }
         }
 
+        /// <summary>
+        /// 状態から出るときの処理
+        /// </summary>
+        /// <param name="state">現在の状態</param>
         private void OnExitState(EnemyState state) { }
 
+        /// <summary>
+        /// プレイヤーの方向を向く処理
+        /// </summary>
         private void LookAtPlayer()
         {
             if (_playerTransform == null)
@@ -233,6 +272,10 @@
             transform.rotation = Quaternion.LookRotation(direction);
         }
 
+        /// <summary>
+        /// プレイヤーが指定した範囲内にいるかどうかを判定する処理
+        /// </summary>
+        /// <param name="range">判定する範囲</param>
         private bool IsPlayerInRange(float range)
         {
             if (_playerTransform == null)

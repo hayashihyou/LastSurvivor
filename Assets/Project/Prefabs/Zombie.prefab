@@ -649,6 +649,7 @@ GameObject:
   - component: {fileID: 1446633697276892439}
   - component: {fileID: 6568107234259962017}
   - component: {fileID: 2221866037360473063}
+  - component: {fileID: 675560340401992680}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Enemy
@@ -857,6 +858,21 @@ MonoBehaviour:
   _dropRate: 0.5
   _dropOffset: {x: 0, y: 0.5, z: 0}
   _enemyStatus: {fileID: 1446633697276892439}
+--- !u!114 &675560340401992680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1072028055473306373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 473d7c67f84976948be3f1bcbdefcb98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LastSurvivor.EnemyScorer
+  _score: 100
+  _enemyStatus: {fileID: 1446633697276892439}
+  _inGameScene: {fileID: 0}
 --- !u!1 &1077169052631930754
 GameObject:
   m_ObjectHideFlags: 0
