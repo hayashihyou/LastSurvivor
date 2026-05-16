@@ -25,14 +25,14 @@
         [Header("索敵範囲"), SerializeField]
         private float _detectionRange = 10f;
 
+        [Header("敵のステータス"), SerializeField]
+        private EnemyStatus _enemyStatus;
+
         // 追跡速度
         private float _chaseSpeed;
 
         // 徘徊速度
         private float _walkSpeed;
-
-        // 敵のステータスを管理するクラスへの参照
-        private EnemyStatus _enemyStatus;
 
         // プレイヤーの位置を追跡するためのTransformへの参照
         private Transform _playerTransform;
@@ -47,16 +47,25 @@
         public ReactiveProperty<bool> IsWalking { get; private set; }
         public ReactiveProperty<bool> IsChasing { get; private set; }
 
+        /// <summary>
+        /// 歩行速度を設定するメソッド
+        /// </summary>
         public void SetWalkSpeed()
         {
             _navMeshAgent.speed = _walkSpeed;
         }
 
+        /// <summary>
+        /// 追跡速度を設定するメソッド
+        /// </summary>
         public void SetChaseSpeed()
         {
             _navMeshAgent.speed = _chaseSpeed;
         }
 
+        /// <summary>
+        /// 移動を停止するメソッド
+        /// </summary>
         public void StopMovement()
         {
             if (_navMeshAgent.isActiveAndEnabled)
@@ -80,9 +89,6 @@
         /// </summary>
         private void Start()
         {
-            // EnemyStatusコンポーネントへの参照を取得
-            _enemyStatus = GetComponent<EnemyStatus>();
-
             _walkSpeed = _enemyStatus.MoveSpeed * 0.5f;
             _chaseSpeed = _enemyStatus.MoveSpeed;
 

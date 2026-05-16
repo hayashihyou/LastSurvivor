@@ -10,9 +10,6 @@
     /// </summary>
     public class InGameScene : MonoBehaviour
     {
-        [Header("リザルトボタン"), SerializeField]
-        private Button _resultButton;
-
         // スコアを管理するReactiveProperty
         public ReactiveProperty<int> Score = new ReactiveProperty<int>(0);
 
@@ -24,10 +21,6 @@
         /// </summary>
         private void Start()
         {
-            _resultButton.onClick.AsObservable()
-                .Subscribe(_ => Result())
-                .AddTo(this);
-
             IsResult
                 .Where(isResult => isResult)
                 .Subscribe(_ => GoToResultTask().Forget())
@@ -41,14 +34,6 @@
         public void AddScore(int amount)
         {
             Score.Value += amount;
-        }
-
-        /// <summary>
-        /// リザルト画面に遷移するフラグを立てる処理
-        /// </summary>
-        private void Result()
-        {
-            IsResult.Value = true;
         }
 
         /// <summary>

@@ -86,6 +86,13 @@
             // リザルト画面へ渡すデータを保存
             PlayerSurvived = survived;
 
+            var inGameScene = FindObjectOfType<InGameScene>();
+            if(inGameScene != null)
+            {
+                PlayerPrefs.SetInt("Score", inGameScene.Score.Value);
+                PlayerPrefs.Save();
+            }
+
             SceneManager.LoadScene(_resultSceneName);
         }
     }
