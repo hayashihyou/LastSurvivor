@@ -98,8 +98,10 @@
         {
             _isGameOver = true;
             _gameTimer?.StopTimer();
-
             _audioSource.Stop();
+
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
 
             // リザルト画面へ渡すデータを保存
             PlayerSurvived = survived;
