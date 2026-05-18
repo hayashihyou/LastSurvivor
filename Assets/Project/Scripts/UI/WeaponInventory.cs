@@ -15,6 +15,12 @@
         [Header("UI Slots"), SerializeField]
         private WeaponSlotUI[] _weaponSlotUI;
 
+        [Header("リロードのSE"), SerializeField]
+        private AudioClip _reloadSE;
+
+        // リロードのSEを再生するためのAudioSource
+        private AudioSource _audioSource;
+
         /// <summary>
         /// 現在選択されている武器がフルオートかどうかを返す
         /// </summary>
@@ -49,6 +55,8 @@
         /// </summary>
         private void Start()
         {
+            _audioSource = GetComponent<AudioSource>();
+
             // 実行時上限を WeaponData の初期値で初期化
             _runtimeMaxReserveAmmos = new int[_weaponData.Length];
 
@@ -93,6 +101,10 @@
         {
             _isReloading = true;
 
+            if(_reloadSE != null)
+            {
+                _audioSource.PlayOneShot(_reloadSE);
+            }
 
             // リロード時間を待機する。キャンセルされた場合は例外がスローされるので、catchブロックで処理する
             try
@@ -105,6 +117,7 @@
 
             catch (System.OperationCanceledException)
             {
+                _audioSource.Stop();
                 // リロードがキャンセルされた場合は何もしない
                 _isReloading = false;
                 return;

@@ -28,8 +28,19 @@
         [Header("弾の寿命"),SerializeField]
         private float _bulletLifetime = 5f;
 
+        [Header("射撃SE"),SerializeField]
+        private AudioClip _shootSE;
+
+        // オーディオソース
+        private AudioSource _audioSource;
+
         // 弾のレイキャストの最大距離
         private const float BulletRaycastRange = 1000f;
+
+        private void Awake()
+        {
+            _audioSource = GetComponent<AudioSource>();
+        }
 
         /// <summary>
         /// 弾を発射する
@@ -38,6 +49,11 @@
         {
             // マズルフラッシュエフェクトを再生
             _muzzleFlash.Play(); 
+
+            if(_shootSE != null)
+            {
+                _audioSource.PlayOneShot(_shootSE);
+            }
 
             Ray ray = _camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
 

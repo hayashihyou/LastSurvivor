@@ -648,8 +648,9 @@ GameObject:
   - component: {fileID: 4140922555785152838}
   - component: {fileID: 1446633697276892439}
   - component: {fileID: 6568107234259962017}
-  - component: {fileID: 2221866037360473063}
-  - component: {fileID: 675560340401992680}
+  - component: {fileID: 8007665972322634247}
+  - component: {fileID: 3901679936594314989}
+  - component: {fileID: 9110978550243145403}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Enemy
@@ -752,6 +753,9 @@ MonoBehaviour:
   _enemyStatus: {fileID: 1446633697276892439}
   _enemyMover: {fileID: 4140922555785152838}
   _enemyAttacker: {fileID: 2649698403140663845}
+  _screamSE: {fileID: 8300000, guid: 339a33ce771f14a43a5df39862482ee6, type: 3}
+  _damageSE: {fileID: 8300000, guid: c26b9eea35c078f4f987ca764b9bfde3, type: 3}
+  _deadSE: {fileID: 8300000, guid: 5e62a4b8600c8f34d9274bdcd656e94c, type: 3}
 --- !u!114 &2649698403140663845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -764,6 +768,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e971dd4873b2f394ebec75caf4f1c1bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LastSurvivor.EnemyAttacker
+  _attackSE: {fileID: 8300000, guid: 4cf2199916f7755458c3d4f475af0074, type: 3}
   _attackCooldown: 1.5
 --- !u!114 &2578761580821838656
 MonoBehaviour:
@@ -841,7 +846,118 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &2221866037360473063
+--- !u!82 &8007665972322634247
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1072028055473306373}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &3901679936594314989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1072028055473306373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 473d7c67f84976948be3f1bcbdefcb98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LastSurvivor.EnemyScorer
+  _score: 100
+  _enemyStatus: {fileID: 1446633697276892439}
+--- !u!114 &9110978550243145403
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -858,21 +974,6 @@ MonoBehaviour:
   _dropRate: 0.5
   _dropOffset: {x: 0, y: 0.5, z: 0}
   _enemyStatus: {fileID: 1446633697276892439}
---- !u!114 &675560340401992680
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1072028055473306373}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 473d7c67f84976948be3f1bcbdefcb98, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LastSurvivor.EnemyScorer
-  _score: 100
-  _enemyStatus: {fileID: 1446633697276892439}
-  _inGameScene: {fileID: 0}
 --- !u!1 &1077169052631930754
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,14 +15,26 @@
         [Header("スポーン設定"),SerializeField]
         private GameObject _enemyPrefab;
 
-        [Header("スポーンポイント"),SerializeField]
-        private Transform[] _spawnPoints;
-
         [Header("スポーン間隔"),SerializeField]
         private float _spawnInterval = 3f;
 
         [Header("エネミー上限"),SerializeField]
         private int _maxEnemyCount = 10;
+
+        [Header("スポーン範囲 X（最小）"), SerializeField]
+        private float _spawnMinX = -20f;
+
+        [Header("スポーン範囲 X（最大）"), SerializeField]
+        private float _spawnMaxX = 20f;
+
+        [Header("スポーン範囲 Z（最小）"), SerializeField]
+        private float _spawnMinZ = -20f;
+
+        [Header("スポーン範囲 Z（最大）"), SerializeField]
+        private float _spawnMaxZ = 20f;
+
+        [Header("スポーンY座標（地面の高さ）"), SerializeField]
+        private float _spawnY = 0f;
 
         // 現在のエネミー数（外部から購読可能）
         public ReadOnlyReactiveProperty<int> EnemyCount => _enemyCount;
@@ -71,19 +83,14 @@
         /// </summary>
         private void SpawnEnemy()
         {
-            if (_spawnPoints.Length == 0)
-            {
-                return;
-            }
+            float randomX = UnityEngine.Random.Range(_spawnMinX, _spawnMaxX);
+            float randomZ = UnityEngine.Random.Range(_spawnMinZ, _spawnMaxZ);
+            Vector3 spawnPosition = new Vector3(randomX, _spawnY, randomZ);
 
-            int index = UnityEngine.Random.Range(0, _spawnPoints.Length);
-            Transform spawnPoint = _spawnPoints[index];
-
-            var enemyObj = Instantiate(_enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+            var enemyObj = Instantiate(_enemyPrefab, spawnPosition, Quaternion.identity);
             _enemyCount.Value++;
-            _onEnemySpawned.OnNext(spawnPoint.position);
+            _onEnemySpawned.OnNext(spawnPosition);
 
-            // EnemyDeadがDestroyするタイミングでカウントを減算
             enemyObj
                 .OnDestroyAsObservable()
                 .Subscribe(_ => _enemyCount.Value--)
