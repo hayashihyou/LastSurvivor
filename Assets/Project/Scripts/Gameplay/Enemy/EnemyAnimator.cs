@@ -24,6 +24,17 @@
         [Header("エネミー攻撃"), SerializeField]
         private EnemyAttacker _enemyAttacker;
 
+        [Header("ScreamのSE"), SerializeField]
+        private AudioClip _screamSE;
+
+        [Header("ダメージSE"), SerializeField]
+        private AudioClip _damageSE;
+
+        [Header("死亡SE"), SerializeField]
+        private AudioClip _deadSE;
+
+        private AudioSource _audioSource;
+
         // Animatorのパラメータ名
         private static readonly int IsWalkingHash = Animator.StringToHash("IsWalking");
         private static readonly int IsChasingHash = Animator.StringToHash("IsChasing");
@@ -37,6 +48,7 @@
         /// </summary>
         private void Start()
         {
+            _audioSource = GetComponent<AudioSource>();
             SubscribeAll();
         }
 
@@ -52,28 +64,50 @@
             _enemyAI.CurrentState
                 .Where(state => state == EnemyAI.EnemyState.Scream)
                 .Take(1)
-                .Subscribe(_ => _animator.SetTrigger(ScreamTriggerHash))
+                .Subscribe(_ =>
+                {
+                    _animator.SetTrigger(ScreamTriggerHash);
+                    if(_screamSE != null)
+                    {
+                        _audioSource.PlayOneShot(_screamSE);
+                    }
+                })
                 .AddTo(this);
 
             _enemyMover.IsChasing
                 .Subscribe(isChasing => _animator.SetBool(IsChasingHash, isChasing))
                 .AddTo(this);
 
-            _enemyStatus.OnDamaged
-                .Where(_ => !_enemyStatus.IsDead.Value)
-                .Subscribe(_ => SetIsHitTask().Forget())
+        _enemyStatus.OnDamaged
+            .Where(_ => !_enemyStatus.IsDead.Value)
+                .Subscribe(_ =>
+                {
+                    SetIsHitTask().Forget();
+                    if (_damageSE != null)
+                    {
+                        _audioSource.PlayOneShot(_damageSE);
+                    }
+                })
                 .AddTo(this);
 
-            _enemyAttacker.IsAttacking
-                .Subscribe(isAttacking => _animator.SetBool(IsAttackingHash, isAttacking))
+        _enemyAttacker.IsAttacking
+            .Subscribe(isAttacking => _animator.SetBool(IsAttackingHash, isAttacking))
                 .AddTo(this);
 
-            _enemyStatus.IsDead
-                .Where(isDead => isDead)
+        _enemyStatus.IsDead
+            .Where(isDead => isDead)
                 .Take(1)
-                .Subscribe(isDead => _animator.SetBool(IsDeadHash, isDead))
+                .Subscribe(isDead =>
+                {
+                    _animator.SetBool(IsDeadHash, isDead);
+                    if (_deadSE != null)
+                    {
+                        _audioSource.PlayOneShot(_deadSE);
+                    }
+                })
                 .AddTo(this);
         }
+    
 
         /// <summary>
         /// 敵がダメージを受けたときにIsHitパラメータを一時的にtrueにする非同期処理

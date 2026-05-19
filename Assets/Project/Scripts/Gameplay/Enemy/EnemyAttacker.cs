@@ -8,6 +8,9 @@
     /// </summary>
     public class EnemyAttacker : MonoBehaviour
     {
+        [Header("攻撃SE"), SerializeField]
+        private AudioClip _attackSE;
+
         [Header("攻撃クールタイム"), SerializeField]
         private float _attackCooldown = 1.5f;
 
@@ -16,6 +19,9 @@
 
         // プレイヤーのステータスを管理するクラスへの参照
         private PlayerStatus _playerStatus;
+
+        // 攻撃のSEを再生するためのAudioSource 
+        private AudioSource _audioSource;
 
         // 敵が攻撃中かどうかを管理するReactiveProperty
         public ReactiveProperty<bool> IsAttacking { get; private set; }
@@ -29,6 +35,8 @@
         private void Awake()
         {
             IsAttacking = new ReactiveProperty<bool>(false);
+
+            _audioSource = GetComponent<AudioSource>();
         }
 
         /// <summary>
@@ -123,6 +131,11 @@
             _playerStatus.TakeDamage(_enemyStatus.AttackPower);
             _cooldownTimer = _attackCooldown;
             IsAttacking.Value = true;
+
+            if(_attackSE != null)
+            {
+                _audioSource.PlayOneShot(_attackSE);
+            }
         }
 
         /// <summary>

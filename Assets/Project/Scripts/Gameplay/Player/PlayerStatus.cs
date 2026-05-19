@@ -23,6 +23,14 @@
         [Header("ジャンプ力"), SerializeField]
         private float _jumpPower = 1.5f;
 
+        [Header("ダメージSE"), SerializeField]
+        private AudioClip _damageSE;
+
+        [Header("死亡SE"), SerializeField]
+        private AudioClip _deadSE;
+
+        private AudioSource _audioSource;
+
         // プレイヤーの現在のHPと死亡状態を管理するReactiveProperty
         public ReactiveProperty<int> CurrentHP { get; private set; }
         public ReactiveProperty<bool> IsDead { get; private set; }
@@ -42,6 +50,8 @@
             CurrentHP = new ReactiveProperty<int>(_maxHP);
             IsDead = new ReactiveProperty<bool>(false);
 
+            _audioSource = GetComponent<AudioSource>();
+
             // HPが0以下になったときに死亡状態を更新
             CurrentHP
                 .Where(hp => hp <= 0)
@@ -49,6 +59,10 @@
                 {
                     CurrentHP.Value = 0;
                     IsDead.Value = true;
+                    if (_deadSE != null)
+                    {
+                        _audioSource.PlayOneShot(_deadSE);
+                    }
                 })
                 .AddTo(this);
         }
@@ -63,7 +77,13 @@
             {
                 return;
             }
+
             CurrentHP.Value -= damage;
+
+            if (_damageSE != null)
+            {
+                _audioSource.PlayOneShot(_damageSE);
+            }
         }
 
         /// <summary>

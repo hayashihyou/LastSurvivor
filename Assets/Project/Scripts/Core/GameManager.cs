@@ -14,6 +14,12 @@
         [Header("ゲームタイマー"), SerializeField]
         private GameTimer _gameTimer;
 
+        [Header("BGM"),SerializeField]
+        private AudioClip _bgmClip;
+
+        // オーディオソース
+        private AudioSource _audioSource;
+
         // シングルトンインスタンス
         public static GameManager Instance { get; private set; }
 
@@ -35,6 +41,9 @@
             }
 
             Instance = this;
+
+            _audioSource = GetComponent<AudioSource>()
+                ?? gameObject.AddComponent<AudioSource>();
         }
 
         /// <summary>
@@ -48,6 +57,13 @@
             }
 
             _gameTimer?.StartTimer();
+
+            if(_bgmClip != null)
+            {
+                _audioSource.clip = _bgmClip;
+                _audioSource.loop = true;
+                _audioSource.Play();
+            }
         }
 
         /// <summary>
@@ -82,6 +98,10 @@
         {
             _isGameOver = true;
             _gameTimer?.StopTimer();
+            _audioSource.Stop();
+
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
 
             // リザルト画面へ渡すデータを保存
             PlayerSurvived = survived;
