@@ -804,7 +804,7 @@ MonoBehaviour:
   _groundMask:
     serializedVersion: 2
     m_Bits: 8
-  _detectionRange: 10
+  _detectionRange: 20
   _enemyStatus: {fileID: 1446633697276892439}
 --- !u!114 &1446633697276892439
 MonoBehaviour:
@@ -822,7 +822,7 @@ MonoBehaviour:
   _moveSpeed: 2
   _attackPower: 5
   _attackRange: 1.5
-  _detectionRange: 8
+  _detectionRange: 20
 --- !u!136 &6568107234259962017
 CapsuleCollider:
   m_ObjectHideFlags: 0
