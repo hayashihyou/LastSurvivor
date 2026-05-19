@@ -707,7 +707,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 1072028055473306373}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 1
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -782,7 +782,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d01cd6e3dc86e9458cec2b852274fd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LastSurvivor.EnemyDead
-  _destroyTime: 3
+  _destroyTime: 1.5
   _enemyStatus: {fileID: 1446633697276892439}
   _collider: {fileID: 6568107234259962017}
   _navMeshAgent: {fileID: 3421909282274459885}
@@ -818,7 +818,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c63aac35b8edb0446b030658b67fcc77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LastSurvivor.EnemyStatus
-  _maxHP: 50
+  _maxHP: 30
   _moveSpeed: 2
   _attackPower: 5
   _attackRange: 1.5
