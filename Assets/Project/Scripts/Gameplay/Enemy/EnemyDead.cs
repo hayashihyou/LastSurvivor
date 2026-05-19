@@ -21,10 +21,6 @@
         [Header("ナビメッシュ"),SerializeField]
         private NavMeshAgent _navMeshAgent;
 
-        // NOTE: 死亡エフェクトを実装したらコメントアウトを外す
-        //[Header("死亡エフェクト"), SerializeField]
-        //private GameObject _deadEffectPrefab;
-
         /// <summary>
         /// ゲーム開始時に呼び出される初期化メソッド
         /// </summary>
@@ -43,7 +39,6 @@
         private void HandleDead()
         {
             DisableComponents();
-            //PlayDeadEffect();
 
             // 一定時間後にエネミーを削除
             Observable
@@ -70,20 +65,5 @@
                 _navMeshAgent.enabled = false;
             }
         }
-
-        /// NOTE: 死亡エフェクトを実装したらコメントアウトを外す
-        /// <summary>
-        /// エネミーの死亡エフェクトを再生するメソッド
-        /// </summary>
-        //void PlayDeadEffect()
-        //{
-        //   if(_deadEffectPrefab == null)
-        //    {
-        //        return;
-        //    }
-
-        //    // 死亡エフェクトをインスタンス化
-        //    Instantiate(_deadEffectPrefab, transform.position, Quaternion.identity);
-        //}
     }
 }

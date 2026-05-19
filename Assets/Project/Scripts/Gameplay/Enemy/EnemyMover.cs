@@ -90,7 +90,7 @@
         private void Start()
         {
             _walkSpeed = _enemyStatus.MoveSpeed * 0.5f;
-            _chaseSpeed = _enemyStatus.MoveSpeed;
+            _chaseSpeed = _enemyStatus.MoveSpeed * 1.5f;
 
             // ナビメッシュエージェントの速度と停止距離をEnemyStatusから設定
             _navMeshAgent.speed = _walkSpeed;
