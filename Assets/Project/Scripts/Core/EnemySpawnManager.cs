@@ -15,6 +15,9 @@
         [Header("スポーン設定"),SerializeField]
         private GameObject _enemyPrefab;
 
+        [Header("エネミーの親オブジェクト"), SerializeField]
+        private Transform _enemyContainer;
+
         [Header("スポーン間隔"),SerializeField]
         private float _spawnInterval = 3f;
 
@@ -87,7 +90,7 @@
             float randomZ = UnityEngine.Random.Range(_spawnMinZ, _spawnMaxZ);
             Vector3 spawnPosition = new Vector3(randomX, _spawnY, randomZ);
 
-            var enemyObj = Instantiate(_enemyPrefab, spawnPosition, Quaternion.identity);
+            var enemyObj = Instantiate(_enemyPrefab, spawnPosition, Quaternion.identity, _enemyContainer);
             _enemyCount.Value++;
             _onEnemySpawned.OnNext(spawnPosition);
 
